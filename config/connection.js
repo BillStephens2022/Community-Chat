@@ -1,6 +1,18 @@
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
+const multer = require("multer");
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+
+cloudinary.config({ 
+  cloud_name: 'drmapjksn', 
+  api_key: '778152731239316', 
+  api_secret: '8AOpytmYPCeDM4Qxf9I9k8Kl_04' 
+});
+
+
+
 let sequelize;
 
 if (process.env.JAWSDB_URL) {
