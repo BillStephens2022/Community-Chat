@@ -1,0 +1,15 @@
+{{!-- The dashboard is where user will see all of the posts they've made as well as a button to create a new post --}}
+<section id="create-post-section">
+<button class="btn btn-primary m-5" id="create-post-button">Create New Post</button>
+</section>
+{{#if posts.length}}
+<div class="container">
+<section class="posts row">
+  {{#each posts as |post|}}
+  {{> post-details-dashboard}}
+  {{/each}}
+</section>
+{{/if}}
+</div>
+<script src="/js/createPost.js"></script>
+<script src="/js/deletePost.js"></script>
