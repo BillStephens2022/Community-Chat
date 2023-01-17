@@ -2,14 +2,29 @@
 <section id="create-post-section">
 <button class="btn btn-primary m-5" id="create-post-button">Create New Post</button>
 </section>
+
 {{#if posts.length}}
 <div class="container">
-<section class="posts row">
+<section class="posts col">
   {{#each posts as |post|}}
-  {{> post-details-dashboard}}
+  {{> post-details}}
   {{/each}}
 </section>
 {{/if}}
 </div>
+
+{{!--  matching the format of the homepage, but with edit and delete buttons --}}
+
+{{!--
+{{#if posts.length}}  
+<div class="container">
+  <section class="posts col">
+    {{#each posts as |post|}}
+    {{> post-details-dashboard}}
+    {{/each}}
+  </section>
+  {{/if}}
+</div>--}}
+
 <script src="/js/createPost.js"></script>
 <script src="/js/deletePost.js"></script>

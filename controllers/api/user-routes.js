@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
     });
 
     req.session.save(() => {
-      req.session.loggedIn = true;
+      req.session.loggedIn = true; // bug: not same casing as others
 
       res.status(200).json(dbUserData);
     });
