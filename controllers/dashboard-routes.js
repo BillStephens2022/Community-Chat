@@ -36,7 +36,7 @@ router.get('/', withAuth, async (req, res) => {
 // renders a new post form when the user clicks on create post from their dashboard.
 router.get('/new-post', (req, res) => {
     res.render('new-post', {
-        loggedIn: true
+      logged_in: true
     })
 })
 
