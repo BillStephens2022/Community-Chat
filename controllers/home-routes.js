@@ -1,13 +1,14 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
-
+require('dotenv').config();
+const cloudinary = require("cloudinary");
 
 // gets all posts (from all users) for display on the homepage
 router.get('/', async (req, res) => {
   try {
     const blogPostData = await Post.findAll({
-      attributes: ['id', 'post_title', 'post_content', 'user_id', 'date_created'],
+      attributes: ['id', 'post_title', 'post_content', 'user_id', 'media', 'date_created'],
       include: [
         {
           model: User,
@@ -20,6 +21,15 @@ router.get('/', async (req, res) => {
       ],
     })
     const posts = blogPostData.map((post) => post.get({ plain: true }));
+
+    console.log('posts: ',posts);
+    for (let i = 0; i < posts.length; i++) {
+      console.log('public_id: ', posts[i].media);
+      posts[i].media = await cloudinary.url(posts[i].media, {transformation: {width: 300, crop: "scale"}})
+      console.log('new link: ', posts[i].media);  
+    }
+
+
     res.render('homepage', {
       posts,
       logged_in: req.session.logged_in,
@@ -40,6 +50,18 @@ router.get('/', async (req, res) => {
       res.status(500).json(err);
     };
 });
+
+// profile
+router.get('/profile', withAuth, (req, res) => {
+  // if (!req.session.sign_up) {
+  //   res.redirect('/dashboard');
+  //   return;
+  // }
+  res.render('profile', {
+    logged_in: req.session.logged_in
+  });
+});
+
 
 // directs user to login page when they choose to log in
 router.get('/login', (req, res) => {
@@ -68,7 +90,7 @@ router.get('/post/:id', withAuth, async (req, res) => {
       where: {
         id: req.params.id
       },
-      attributes: ['id', 'post_title', 'post_content', 'date_created'],
+      attributes: ['id', 'post_title', 'post_content', 'media', 'date_created'],
         include: [
           { 
             model: Comment,
@@ -86,6 +108,8 @@ router.get('/post/:id', withAuth, async (req, res) => {
     })
     const post = singlePostData.get({ plain: true });
     console.log('post: ',post);
+
+    post.media = await cloudinary.url(post.media, {transformation: {width: 300, crop: "scale"}})
 
     res.render('singlePost', {post, logged_in: req.session.logged_in});
     

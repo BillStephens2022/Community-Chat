@@ -1,3 +1,14 @@
+{{!-- format for cards rendered for each post on the dashboard page.  User will also see edit and delete buttons for each post --}}
+<div class="d-flex justify-content-around dashboard-card">
+    <section class="card mb-3">
+        <h2 class="card-title">{{post_title}}</h2>
+        <h5 class="card-content">{{post_content}}</h5>
+        {{#if media}}
+        <img src="{{media}}" alt="media">
+        {{/if}}
+        <h4 class="card-author">Posted by: {{user.username}} on {{format_date date_created}}</h4>
+        <p><span class = "edit-delete-buttons"><a href="api/posts/edit-post/{{id}}" class="btn btn-warning edit-button" id="edit-{{id}}">Edit</a><button class="btn btn-danger delete-button" id="delete-{{id}}">Delete</button></span></p>     
+    </section>
 {{!-- format for cards rendered for each post on the dashboard page. User will also see edit and delete buttons for each
 post --}}
 <div class="col-lg-12"> {{!--"d-flex justify-content-around dashboard-card"> --}}

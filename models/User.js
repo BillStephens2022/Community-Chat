@@ -20,6 +20,16 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    first_name: {
+      type: DataTypes.STRING
+    },
+    last_name: {
+      type: DataTypes.STRING
+    },
+    date_of_birth:{ 
+      type: DataTypes.DATEONLY,
+      defaultValue: DataTypes.NOW
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -27,6 +37,9 @@ User.init(
       validate: {
         isEmail: true,
       },
+    },
+    profile_picture: {
+      type: DataTypes.STRING,
     },
     password: {
       type: DataTypes.STRING,
