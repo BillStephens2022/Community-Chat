@@ -3,7 +3,7 @@
 <button class="btn btn-primary m-5" id="create-post-button">Create New Post</button>
 </section>
 
-{{#if posts.length}}
+{{!-- {{#if posts.length}}
 <div class="container">
 <section class="posts col">
   {{#each posts as |post|}}
@@ -11,11 +11,11 @@
   {{/each}}
 </section>
 {{/if}}
-</div>
+</div> --}}
 
 {{!--  matching the format of the homepage, but with edit and delete buttons --}}
 
-{{!--
+
 {{#if posts.length}}  
 <div class="container">
   <section class="posts col">
@@ -24,7 +24,7 @@
     {{/each}}
   </section>
   {{/if}}
-</div>--}}
+</div>
 
 <script src="/js/createPost.js"></script>
 <script src="/js/deletePost.js"></script>
