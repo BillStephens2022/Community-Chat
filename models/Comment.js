@@ -15,6 +15,9 @@ Comment.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    media: {
+      type: DataTypes.STRING
+    },
     // This column will store a reference of the 'id' of the 'post' that the 'comment' is associated with.
     post_id: {
       type: DataTypes.INTEGER,

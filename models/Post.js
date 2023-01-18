@@ -24,6 +24,14 @@ Post.init(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+    media: {
+      type: DataTypes.STRING
+    },
+    rating: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      defaultValue: 0,
+      allowNull: false
+    },
     // This column will store a reference of the `id` of the `User` that made the 'Post'.
     user_id: {
       type: DataTypes.INTEGER,
