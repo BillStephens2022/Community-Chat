@@ -1,22 +1,8 @@
 {{!-- The dashboard is where user will see all of the posts they've made as well as a button to create a new post --}}
 <section id="create-post-section">
-<button class="btn btn-primary m-5" id="create-post-button">Create New Post</button>
+  <button class="btn btn-primary m-5" id="create-post-button">Create New Post</button>
 </section>
-
-{{!-- {{#if posts.length}}
-<div class="container">
-<section class="posts col">
-  {{#each posts as |post|}}
-  {{> post-details}}
-  {{/each}}
-</section>
-{{/if}}
-</div> --}}
-
-{{!--  matching the format of the homepage, but with edit and delete buttons --}}
-
-
-{{#if posts.length}}  
+{{#if posts.length}}
 <div class="container">
   <section class="posts col">
     {{#each posts as |post|}}
