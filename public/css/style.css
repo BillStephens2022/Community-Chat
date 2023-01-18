@@ -152,11 +152,13 @@ h6 {
 }
 
 .edit-button {
-    margin-left: 50px;
+    margin-left: 00px;
+    margin-right: 00px;
 }
 
 .delete-button {
-    margin-left: 10px;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 @media screen and (max-width: 510px) {
