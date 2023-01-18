@@ -64,22 +64,22 @@ router.get('/profile', withAuth, (req, res) => {
 
 
 // directs user to login page when they choose to log in
-router.get('/login', (req, res) => {
-  if (req.session.logged_in) {
-    res.redirect('/dashboard');
-    return;
-  }
-  res.render('login');
-});
+// router.get('/login', (req, res) => {
+//   if (req.session.logged_in) {
+//     res.redirect('/dashboard');
+//     return;
+//   }
+//   res.render('login');
+// });
 
 // directs user to register page if user is not logged in, otherwise user will be brought to dashboard
-router.get('/register', (req, res) => {
-  if (req.session.logged_in) {
-    res.redirect('/dashboard');
-    return;
-  }
-  res.render('register');
-});
+// router.get('/register', (req, res) => {
+//   if (req.session.logged_in) {
+//     res.redirect('/dashboard');
+//     return;
+//   }
+//   res.render('register');
+// });
 
 // renders the single-post page when a user clicks on a single post on the homepage
 router.get('/post/:id', withAuth, async (req, res) => {
