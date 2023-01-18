@@ -1,25 +1,27 @@
-{{!-- single post page displaying an area to leave a comment and save  --}}
+{{!-- single post page displaying an area to leave a comment and save --}}
 <section class="post">
+  
+  <h3 class="h3-single-post">Original Post</h3>
+  {{> single-post-details post}}
+  
+  <h3 class="h3-comments">Comments</h3>
   <form class="submit-comment-form">
     <!-- Comment Text Area -->
-    <div class="form-outline mb-4">
+    <div class="form-outline mb-3">
       <label class="form-label" for="new-comment-content">Post a comment here!</label>
       <textarea id="new-comment-content" class="form-control" placeholder="Enter comment here"></textarea>
     </div>
 
     <!-- Comment Submit button -->
-    <button type="submit" class="btn btn-success btn-block mb-4 comment-submit-button" id="comment-submit-button">Post Comment</button>
-    
-  </form>
-  
-  <h3 class="h3-single-post">Original Post</h3>
-  {{> single-post-details post}}
-  <h3 class="h3-comments">Comments</h3>
-  <section class="comments-section">
-  {{> comment-details post.comments}}
-  </section>
-  
+    <button type="submit" class="btn btn-success btn-block mb-4 comment-submit-button" id="comment-submit-button">Post
+      Comment</button>
 
-  
+  </form>
+  <section class="comments-section">
+    {{> comment-details post.comments}}
+  </section>
+
+
+
 </section>
 <script src="/js/createComment.js"></script>
