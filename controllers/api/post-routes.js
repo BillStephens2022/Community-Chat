@@ -6,38 +6,48 @@ const { format_date } = require('../../utils/helpers');
 require('dotenv').config();
 const cloudinary = require("cloudinary");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/"});
+const upload = multer({ dest: "uploads/" });
 // const upload = multer();
 
 router.get('/', (req, res) => {
-    console.log('GET request received!');
+  console.log('GET request received!');
 });
 
 // Create Post in the back end after user submits on the front end
 router.post('/', withAuth, upload.single('file'), async (req, res) => {
   try {
-    console.log('body: ',req.body);
-    console.log('file: ',req.file) ;
+    console.log('body: ', req.body);
+    console.log('file: ', req.file);
 
-    const file = req.file.path;
-    console.log('file path: ', file);
-    const result = await cloudinary.uploader.upload(file, {
-      resource_type: 'auto',
-      folder: 'community-chat'
-    });
+    if (req.file) {
+      const file = req.file.path;
+      console.log('file path: ', file);
+      const result = await cloudinary.uploader.upload(file, {
+        resource_type: 'auto',
+        folder: 'community-chat'
+      });
 
-    console.log('result: ', result);
+      console.log('result: ', result);
 
-    const media_id = result.public_id;
+      const media_id = result.public_id;
 
-    const newPostData = await Post.create({
+      const newPostData = await Post.create({
         post_title: req.body.title,
         post_content: req.body.content,
         media: media_id,
         user_id: req.session.user_id
-    })
-    res.status(200).json(newPostData);
+      })
+      res.status(200).json(newPostData);
+    } else {
+      const newPostData = await Post.create({
+        post_title: req.body.title,
+        post_content: req.body.content,
+        user_id: req.session.user_id
+      })
+      res.status(200).json(newPostData);
+    }    
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 });
@@ -45,8 +55,8 @@ router.post('/', withAuth, upload.single('file'), async (req, res) => {
 // Create profile
 router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
   try {
-    console.log('body: ',req.body);
-    console.log('file: ',req.file) ;
+    console.log('body: ', req.body);
+    console.log('file: ', req.file);
 
     const file = req.file.path;
     console.log('file path: ', file);
@@ -72,8 +82,8 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
         }
       }
     )
-    console.log("newUserData: ",newUserData);
-    res.status(200).json(newUserData);    
+    console.log("newUserData: ", newUserData);
+    res.status(200).json(newUserData);
     // res.status(200).json('');  
   } catch (err) {
     console.error(err);
@@ -106,24 +116,25 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
         id: post_id,
       },
       attributes: ['id', 'post_title', 'post_content', 'date_created'],
-        include: [
-          { 
-            model: User,
-            attributes: ['username']
-          },
-        ]
+      include: [
+        {
+          model: User,
+          attributes: ['username']
+        },
+      ]
     })
     const post = editPostData.get({ plain: true });
-    res.render('edit-post', {post});
-    
+    res.render('edit-post', { post });
+
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 })
 
 // executed after a user submits their edited post
 router.put('/:id', withAuth, async (req, res) => {
-  try { 
+  try {
     await Post.update(
       {
         post_title: req.body.post_title,
@@ -137,7 +148,9 @@ router.put('/:id', withAuth, async (req, res) => {
     )
     res.json(editedPost);
   } catch (err) {
-    res.json(err)};
+    console.error(err);
+    res.json(err)
+  };
 });
 
 module.exports = router;
