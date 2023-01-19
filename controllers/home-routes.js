@@ -19,14 +19,35 @@ router.get('/', async (req, res) => {
           attributes: ['id', 'comment_content', 'post_id', 'user_id', 'date_created'],
         },
       ],
+      order:[
+        ['date_created','DESC' ]
+      ]
     })
     const posts = blogPostData.map((post) => post.get({ plain: true }));
 
-    console.log('posts: ',posts);
+    console.log('posts: ', posts);
+    // for (let i = 0; i < posts.length; i++) {
+    //   console.log('public_id: ', posts[i].media);
+    //   posts[i].media = await cloudinary.url(posts[i].media, { transformation: { width: 300, crop: "scale" } })
+    //   console.log('new link: ', posts[i].media);
+    // }
+
     for (let i = 0; i < posts.length; i++) {
       console.log('public_id: ', posts[i].media);
-      posts[i].media = await cloudinary.url(posts[i].media, {transformation: {width: 300, crop: "scale"}})
-      console.log('new link: ', posts[i].media);  
+
+      if (posts[i].media) {
+
+        const public_id_list = posts[i].media.split(',');
+        const mediaUrl = [];
+
+        for (let i = 0; i < public_id_list.length; i++) {
+          mediaUrl.push(await cloudinary.url(public_id_list[i], { transformation: { width: 300, crop: "scale" } }));
+
+        }
+
+        posts[i].media = mediaUrl;
+        console.log('new link: ', posts[i].media);
+      }
     }
 
 
@@ -47,8 +68,8 @@ router.get('/', async (req, res) => {
       }
     })
   } catch (err) {
-      res.status(500).json(err);
-    };
+    res.status(500).json(err);
+  };
 });
 
 // profile
@@ -83,7 +104,7 @@ router.get('/register', (req, res) => {
 
 // renders the single-post page when a user clicks on a single post on the homepage
 router.get('/post/:id', withAuth, async (req, res) => {
-  
+
   try {
     // Find the logged in user based on the post ID
     const singlePostData = await Post.findOne({
@@ -91,28 +112,45 @@ router.get('/post/:id', withAuth, async (req, res) => {
         id: req.params.id
       },
       attributes: ['id', 'post_title', 'post_content', 'media', 'date_created'],
-        include: [
-          { 
-            model: Comment,
-            attributes: ['id','comment_content', 'post_id', 'user_id', 'date_created'],
-            include: {
-              model: User,
-              attributes: ['username']
-            }
-          },
-          {
+      include: [
+        {
+          model: Comment,
+          attributes: ['id', 'comment_content', 'post_id', 'user_id', 'date_created'],
+          include: {
             model: User,
             attributes: ['username']
           }
-        ]
+        },
+        {
+          model: User,
+          attributes: ['username']
+        }
+      ]
     })
     const post = singlePostData.get({ plain: true });
-    console.log('post: ',post);
+    console.log('post: ', post);
 
-    post.media = await cloudinary.url(post.media, {transformation: {width: 300, crop: "scale"}})
 
-    res.render('singlePost', {post, logged_in: req.session.logged_in});
-    
+    console.log('public_id: ', post.media);
+
+    if (post.media) {
+
+      const public_id_list = post.media.split(',');
+      const mediaUrl = [];
+
+      for (let i = 0; i < public_id_list.length; i++) {
+        mediaUrl.push(await cloudinary.url(public_id_list[i], { transformation: { width: 300, crop: "scale" } }));
+
+      }
+
+      post.media = mediaUrl;
+      console.log('new link: ', post.media);
+    }
+
+    // post.media = await cloudinary.url(post.media, {transformation: {width: 300, crop: "scale"}})
+
+    res.render('singlePost', { post, logged_in: req.session.logged_in });
+
   } catch (err) {
     res.status(500).json(err);
   }

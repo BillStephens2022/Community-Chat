@@ -15,47 +15,74 @@ router.get('/', (req, res) => {
 });
 
 // Create Post in the back end after user submits on the front end
-router.post('/', withAuth, upload.single('file'), async (req, res) => {
+// router.post('/', withAuth, upload.single('file'), async (req, res) => {
+//   try {
+//     console.log('body: ', req.body);
+//     console.log('file: ', req.file);
+
+//     if (req.file) {
+//       const file = req.file.path;
+//       console.log('file path: ', file);
+//       const result = await cloudinary.uploader.upload(file, {
+//         resource_type: 'auto',
+//         folder: 'community-chat'
+//       });
+
+//       // delete the file
+//       fs.unlinkSync(file);
+
+//       console.log('result: ', result);
+
+//       // storing cloudinary public_id to media_id
+//       const media_id = result.public_id;
+
+//       const newPostData = await Post.create({
+//         post_title: req.body.title,
+//         post_content: req.body.content,
+//         media: media_id,
+//         user_id: req.session.user_id
+//       })
+//       res.status(200).json(newPostData);
+//     } else {
+//       const newPostData = await Post.create({
+//         post_title: req.body.title,
+//         post_content: req.body.content,
+//         user_id: req.session.user_id
+//       })
+//       res.status(200).json(newPostData);
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json(err);
+//   }
+// });
+
+router.post('/', withAuth, async (req, res) => {
   try {
     console.log('body: ', req.body);
-    console.log('file: ', req.file);
 
-    if (req.file) {
-      const file = req.file.path;
-      console.log('file path: ', file);
-      const result = await cloudinary.uploader.upload(file, {
-        resource_type: 'auto',
-        folder: 'community-chat'
-      });
-      
-      // delete the file
-      fs.unlinkSync(file);
-    
-      console.log('result: ', result);
+    const public_id_list = req.body.public_id_list;
+    console.log('public_id_list: ', public_id_list);
 
-      // storing cloudinary public_id to media_id
-      const media_id = result.public_id;
+    // storing cloudinary public_id to media_id
+    const media = public_id_list.join();
 
-      const newPostData = await Post.create({
-        post_title: req.body.title,
-        post_content: req.body.content,
-        media: media_id,
-        user_id: req.session.user_id
-      })
-      res.status(200).json(newPostData);
-    } else {
-      const newPostData = await Post.create({
-        post_title: req.body.title,
-        post_content: req.body.content,
-        user_id: req.session.user_id
-      })
-      res.status(200).json(newPostData);
-    }
+    const newPostData = await Post.create({
+      post_title: req.body.title,
+      post_content: req.body.content,
+      media: media,
+      user_id: req.session.user_id
+    })
+    res.status(200).json(newPostData);
+
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
   }
 });
+
+
+
 
 // Create profile
 router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
@@ -73,6 +100,9 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
       });
 
       console.log('result: ', result);
+
+      // delete the file
+      fs.unlinkSync(file);
 
       const profile_picture = result.public_id;
 
@@ -96,7 +126,7 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
         {
           first_name: req.body.first_name,
           last_name: req.body.last_name,
-          date_of_birth: req.body.date_of_birth,          
+          date_of_birth: req.body.date_of_birth,
         },
         {
           where: {
