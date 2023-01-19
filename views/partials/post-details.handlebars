@@ -4,8 +4,12 @@
     <section class="card mb-3">
         <h2 class="card-title">{{post_title}}</h2>
         <h5 class="card-content">{{post_content}}</h5>
-        {{#if media}}
-        <img src="{{media}}" alt="media">
+        {{#if media.length}}
+          {{#each media as |image|}}
+            <div class="container text-center">
+              <img src="{{image}}" alt="image"> 
+             </div>
+          {{/each}}
         {{/if}}
         <h4 class="card-author">Posted by: {{user.username}} on {{format_date date_created}}</h4>
     </section>
