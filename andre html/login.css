@@ -1,0 +1,181 @@
+:root {
+    --main-blue: #3b5998;
+    --dark: #292b2c;
+}
+
+html, body {
+    background-color: var(--dark);
+    color: white;
+}
+
+
+
+.hero {
+    max-height: 300px;   
+    text-align: center;
+    background: radial-gradient(black, var(--main-blue));
+    align-items: center;
+    display: block;
+}
+
+h1 {
+    padding-top: 15px;
+    font-size: 6em;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-shadow:
+    0 0 7px white,
+    0 0 10px var(--main-blue),
+    0 0 21px var(--main-blue),
+    0 0 42px var(--main-blue),
+    0 0 82px var(--main-blue),
+    0 0 92px var(--main-blue),
+    0 0 102px var(--main-blue),
+    0 0 151px var(--main-blue);
+}
+
+h6 {
+    text-align: center;
+    color: white;
+}
+
+.container {
+    margin: auto;
+}
+
+.row {
+    margin: 0;
+}
+
+.card {
+    color: white;
+    background-color: var(--main-blue);
+    box-shadow: 2px 2px 2px white;
+}
+
+.card-title {
+    color: white;
+    padding: 8px;
+}
+
+.card-content {
+    background-color: white;
+    color: var(--dark);
+    min-height: 100px;
+    margin: 15px;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.card-author {
+    color: white;
+    padding: 8px;
+    justify-content: space-around;
+}
+
+.subtitle {
+    text-align: center;
+}
+
+.login-form, .register-form {
+    display: block;
+    margin: auto;
+    max-width: 275px;
+    text-align: center;
+}
+
+#register-here {
+    text-align: center;
+    margin: auto;
+}
+
+#register {
+    color: white;
+}
+
+.post-links {
+    text-decoration: none;
+}
+
+.card:hover {
+    box-shadow: 2px 2px 15px white;
+}
+
+
+#create-post-section {
+    text-align: center;
+}
+
+#create-post-button:hover {
+    box-shadow: 5px 5px 15px white;
+}
+
+#new-post-form {
+    display: block;
+    margin: auto;
+    width: 500px;
+    text-align: center;
+}
+
+#new-post-title, #new-post-content {
+    width: 500px;
+}
+
+#new-post-content, #edit-post-content {
+    height: 300px;
+}
+
+.submit-comment-form {
+    display: block;
+    margin: auto;
+    width: 500px;
+    text-align: center;
+}
+
+.edit-post-form {
+    max-width: 500px;
+}
+
+.comment-card {
+    width: 500px;
+    margin: auto;
+    color: black;
+    background-color: white;
+    padding: 8px;
+}
+
+.comment-card h6 {
+    color: black;
+}
+
+.h3-comments, .h3-single-post {
+    text-align: center;
+}
+
+.edit-button {
+    margin-left: 00px;
+    margin-right: 00px;
+}
+
+.delete-button {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 510px) {
+  
+    #new-post-title, #new-post-content, #edit-post-content, #new-comment-content {
+      width: 300px;
+      
+    }
+
+}   
+
+@media screen and (max-width: 310px) {
+  
+    #new-post-title, #new-post-content, #edit-post-content, #new-comment-content {
+      width: 300px;
+      text-align: center;
+    }
+
+}   
+
