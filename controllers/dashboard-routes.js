@@ -48,12 +48,17 @@ router.get('/', withAuth, async (req, res) => {
 
       if (posts[i].media) {
 
+        // id1,id2,id2 => ['id1','id2','id3']
         const public_id_list = posts[i].media.split(',');
         const mediaUrl = [];
 
         for (let i = 0; i < public_id_list.length; i++) {
+          // const info = await cloudinary.v2.api.resource(public_id_list[i]);
+          // console.log("media info: ",info);
           mediaUrl.push(await cloudinary.url(public_id_list[i], { transformation: { width: 300, crop: "scale" } }));
 
+          // cloudinary.video()
+          //mediaUrl = ['link1','link2','link3']
         }
 
         posts[i].media = mediaUrl;
@@ -62,12 +67,13 @@ router.get('/', withAuth, async (req, res) => {
     }
 
     res.render('dashboard', {
-      posts,
+      posts, //posts.media is array
       user,
       // logged_in: true  
       logged_in: req.session.logged_in
     });
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 });

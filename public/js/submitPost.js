@@ -4,11 +4,13 @@ var cloudinaryWidget = cloudinary.createUploadWidget({
     cloudName: 'drmapjksn', uploadPreset: 'lkogtwek', folder: 'widgetUpload'
 },(error, result) => { 
     if (!error && result && result.event === "success") { 
+        console.log("result info ", result.info);
         public_id_list.push(result.info.public_id);        
         console.log("public ids: ", public_id_list);
       }
   }
 );
+
 
 // function that handles the submission of a newly created post
 

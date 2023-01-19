@@ -65,6 +65,7 @@ router.post('/', withAuth, async (req, res) => {
     console.log('public_id_list: ', public_id_list);
 
     // storing cloudinary public_id to media_id
+    // ['id1','id2','id3'] => id1,id2,id3
     const media = public_id_list.join();
 
     const newPostData = await Post.create({
