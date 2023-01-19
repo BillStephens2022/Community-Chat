@@ -16,19 +16,24 @@ const sess = {
   cookie: {
     // cookie/session expires after 30 minutes
     maxAge: 30 * 60 * 1000,
-    sameSite: 'none',
-    secure: true
+    sameSite: 'strict',
+    secure: false
     
   },
   resave: false,
   saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize
-  })
+  // store: new SequelizeStore({
+  //   db: sequelize
+  // })
 };
 
 // express-session
 app.use(session(sess));
+
+app.use((req, res, next)=>{
+  console.log(`${req.method} Request Received on endpoint ${req.url}`);
+  next();
+})
 
 // middleware
 app.use(express.json());

@@ -5,27 +5,35 @@ module.exports = function (app, passport) {
   console.log("*************************");
   console.log(`passport`);
   console.log("*************************");
-  app.get("/register", authController.register);
-  app.get("/login", authController.login);
+
+  function routingLog(req, res, next) {
+    console.log(`From authRoutes code: ${req.method} endpoint ${req.url}`);
+    next();
+  }
+
+  app.get("/register", routingLog, authController.register);
+  app.get("/login", routingLog, authController.login);
   app.post(
     "/register",
-    (req, res, next) => {
-      console.log(`${req.method} /registration middleware`);
-      next();
-    },
+    routingLog,
+    // (req, res, next) => {
+    //   console.log(`${req.method} /registration middleware`);
+    //   next();
+    // },
     passport.authenticate("local-signup", {
       successRedirect: "/profile",
       failureRedirect: "/login",
     })
   );
-  app.get("/dashboard", withAuth, authController.dashboard);
-  app.get("/logout", authController.logout);
+  app.get("/dashboard", routingLog, withAuth, authController.dashboard);
+  app.get("/logout", routingLog, authController.logout);
   app.post(
     "/login",
-    (req, res, next) => {
-      console.log(`${req.method} /login middleware`);
-      next();
-    },
+    routingLog,
+    // (req, res, next) => {
+    //   console.log(`${req.method} /login middleware`);
+    //   next();
+    // },
     passport.authenticate("local-signin", {
       successRedirect: "/dashboard",
       failureRedirect: "/login",
