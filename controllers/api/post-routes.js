@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Post, User } = require('../../models');
 const withAuth = require('../../utils/auth');
 const { format_date } = require('../../utils/helpers');
+const fs = require('fs');
 // for cloudinary use
 require('dotenv').config();
 const cloudinary = require("cloudinary");
@@ -26,9 +27,13 @@ router.post('/', withAuth, upload.single('file'), async (req, res) => {
         resource_type: 'auto',
         folder: 'community-chat'
       });
-
+      
+      // delete the file
+      fs.unlinkSync(file);
+    
       console.log('result: ', result);
 
+      // storing cloudinary public_id to media_id
       const media_id = result.public_id;
 
       const newPostData = await Post.create({
@@ -45,7 +50,7 @@ router.post('/', withAuth, upload.single('file'), async (req, res) => {
         user_id: req.session.user_id
       })
       res.status(200).json(newPostData);
-    }    
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
@@ -58,33 +63,50 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
     console.log('body: ', req.body);
     console.log('file: ', req.file);
 
-    const file = req.file.path;
-    console.log('file path: ', file);
-    const result = await cloudinary.uploader.upload(file, {
-      resource_type: 'auto',
-      folder: 'community-chat/profile'
-    });
+    if (req.file) {
 
-    console.log('result: ', result);
+      const file = req.file.path;
+      console.log('file path: ', file);
+      const result = await cloudinary.uploader.upload(file, {
+        resource_type: 'auto',
+        folder: 'community-chat/profile'
+      });
 
-    const profile_picture = result.public_id;
+      console.log('result: ', result);
 
-    const newUserData = await User.update(
-      {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        date_of_birth: req.body.date_of_birth,
-        profile_picture: profile_picture,
-      },
-      {
-        where: {
-          id: req.session.user_id
+      const profile_picture = result.public_id;
+
+      const newUserData = await User.update(
+        {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          date_of_birth: req.body.date_of_birth,
+          profile_picture: profile_picture,
+        },
+        {
+          where: {
+            id: req.session.user_id
+          }
         }
-      }
-    )
-    console.log("newUserData: ", newUserData);
-    res.status(200).json(newUserData);
-    // res.status(200).json('');  
+      )
+      console.log("newUserData: ", newUserData);
+      res.status(200).json(newUserData);
+    } else {
+      const newUserData = await User.update(
+        {
+          first_name: req.body.first_name,
+          last_name: req.body.last_name,
+          date_of_birth: req.body.date_of_birth,          
+        },
+        {
+          where: {
+            id: req.session.user_id
+          }
+        }
+      )
+      console.log("newUserData: ", newUserData);
+      res.status(200).json(newUserData);
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
