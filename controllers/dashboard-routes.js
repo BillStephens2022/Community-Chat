@@ -6,8 +6,8 @@ const cloudinary = require("cloudinary");
 
 // this is executed when the user accesses their dashboard.  The dashboard page will be loaded with all of their posts rendered
 router.get('/', withAuth, async (req, res) => {
+    console.log('***Dashboard Session User ID: *****************', req.session.user_id);
     try {
-
       const userData = await User.findByPk(req.session.user_id, {
         attributes: { exclude: ['password'] }});
 

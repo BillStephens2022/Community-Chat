@@ -16,6 +16,9 @@ const sess = {
   cookie: {
     // cookie/session expires after 30 minutes
     maxAge: 30 * 60 * 1000,
+    sameSite: 'none',
+    secure: true
+    
   },
   resave: false,
   saveUninitialized: true,

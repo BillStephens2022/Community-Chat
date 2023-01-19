@@ -62,9 +62,16 @@ module.exports = function(passport, user) {
                             return done(null, false);
                         }
                         if (newUser) {
-                            console.log('newUserCREATED!');
-                            console.log(newUser.id);
-                            return done(null, newUser);
+                            req.session.save(() => {
+                            req.session.logged_in = true;
+                            req.session.sign_up = true;
+                            req.session.user_id = newUser.id;
+                            console.log('req.session.user_id: ',req.session.user_id);
+                        });
+                            console.log("The new user ID is: ", newUser.id);
+                            req.session.user_id = newUser.id
+                            console.log('****session user id: ******: ', req.session.user_id);
+                            return done(null, newUser, req.session.user_id);
                         }
                     });
                 }
@@ -83,8 +90,7 @@ module.exports = function(passport, user) {
             console.log('passport-local-signin');
             console.log('password: ', req.body.password);
             console.log('email: ', email);
-            //var User = user;
-            console.log('USER: ', user);
+            var User = user;
             var isValidPassword = function(userpass, password) {
                 return bCrypt.compareSync(password, userpass);
             }
@@ -98,16 +104,21 @@ module.exports = function(passport, user) {
                         message: 'Email does not exist'
                     });
                 }
-                console.log('user.password:', user.password, user.username);
-                console.log('password: ', password);
                 console.log('****is valid password? **** :', isValidPassword(user.password, password));
-                console.log('checkequality without function: ', (user.password===password));
                 if (!isValidPassword(user.password, password)) {
                     return done(null, false, {
                         message: 'Incorrect password.'
                     });
                 }
                 var userinfo = user.get();
+                if (user) {
+                    req.session.save(() => {
+                    req.session.logged_in = true;
+                    req.session.sign_up = true;
+                    req.session.user_id = user.id;
+                    console.log('logged in - req.session.user_id: ',req.session.user_id);
+                    })
+                }
                 return done(null, userinfo);
             }).catch(function(err) {
                 console.log("Error:", err);
