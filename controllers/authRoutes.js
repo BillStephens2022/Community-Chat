@@ -1,4 +1,5 @@
 const authController = require("../authController/authController.js");
+const withAuth = require('../utils/auth');
 
 module.exports = function (app, passport) {
   console.log("*************************");
@@ -13,11 +14,11 @@ module.exports = function (app, passport) {
       next();
     },
     passport.authenticate("local-signup", {
-      successRedirect: "/dashboard",
+      successRedirect: "/profile",
       failureRedirect: "/login",
     })
   );
-  app.get("/dashboard", isLoggedIn, authController.dashboard);
+  app.get("/dashboard", withAuth, authController.dashboard);
   app.get("/logout", authController.logout);
   app.post(
     "/login",
@@ -30,8 +31,8 @@ module.exports = function (app, passport) {
       failureRedirect: "/login",
     })
   );
-  function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect("/login");
-  }
+  // function isLoggedIn(req, res, next) {
+  //   if (req.isAuthenticated()) return next();
+  //   res.redirect("/login");
+  // }
 };

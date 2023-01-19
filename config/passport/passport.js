@@ -39,14 +39,18 @@ module.exports = function(passport, user) {
                     email: email
                 }
             }).then(function(user) {
+                console.log("did anything get into this function????")
                 if (user)
                 {
+                    console.log("**********IF USER FAILED****")
                     return done(null, false, {
                         message: 'That email is already taken'
                     });
                 } else
                 {
+                    console.log('**************I AM HERE*************')
                     var userPassword = generateHash(password);
+                    console.log('password after hash: ', userPassword);
                     var data =
                         {
                             username: req.body.username,
@@ -58,6 +62,8 @@ module.exports = function(passport, user) {
                             return done(null, false);
                         }
                         if (newUser) {
+                            console.log('newUserCREATED!');
+                            console.log(newUser.id);
                             return done(null, newUser);
                         }
                     });
@@ -75,7 +81,10 @@ module.exports = function(passport, user) {
         },
         function(req, email, password, done) {
             console.log('passport-local-signin');
-            var User = user;
+            console.log('password: ', req.body.password);
+            console.log('email: ', email);
+            //var User = user;
+            console.log('USER: ', user);
             var isValidPassword = function(userpass, password) {
                 return bCrypt.compareSync(password, userpass);
             }
@@ -89,6 +98,10 @@ module.exports = function(passport, user) {
                         message: 'Email does not exist'
                     });
                 }
+                console.log('user.password:', user.password, user.username);
+                console.log('password: ', password);
+                console.log('****is valid password? **** :', isValidPassword(user.password, password));
+                console.log('checkequality without function: ', (user.password===password));
                 if (!isValidPassword(user.password, password)) {
                     return done(null, false, {
                         message: 'Incorrect password.'
