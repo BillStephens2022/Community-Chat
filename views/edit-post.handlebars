@@ -18,6 +18,24 @@
     <button type="submit" class="btn btn-primary btn-block mb-4 edit-submit-button" id="edit-{{post.id}}">Save</button>
     
   </form>
-
 </div>
+
+<input value="{{post.id}}" type="hidden" id="post_id"/>
+{{#if post.media.length}}
+  <div class="media-list">
+    {{#each post.media}} 
+      <div class="container text-center">
+      {{#if image}}
+          <img src="{{url}}" alt="image"> <button type="submit" class="btn btn-primary btn-block mb-4 delete" data-id="{{id}}" data-resource="{{resource_type}}">Delete</button>
+      {{/if}}
+      {{#if video}}
+          {{{url}}}<button type="submit" class="btn btn-primary btn-block mb-4 delete" data-id="{{id}}" data-resource="{{resource_type}}">Delete</button> 
+      {{/if}}
+      {{#if raw}}                   
+      <a href="{{url}}" download> 📂file Download📂 </a> <button type="submit" class="btn btn-primary btn-block mb-4 delete" data-id="{{id}}" data-resource="{{resource_type}}">Delete</button>
+      {{/if}}
+    </div>
+    {{/each}}
+  </div>
+{{/if}}
 <script src="/js/editPost.js"></script>

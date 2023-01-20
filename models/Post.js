@@ -25,7 +25,7 @@ Post.init(
       defaultValue: DataTypes.NOW,
     },
     media: {
-      type: DataTypes.STRING
+      type: DataTypes.TEXT
     },
     rating: {
       type: DataTypes.INTEGER.UNSIGNED,
