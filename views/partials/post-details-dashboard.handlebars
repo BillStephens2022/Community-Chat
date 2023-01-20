@@ -24,12 +24,19 @@
                    
                 {{/each}}
             {{/if}}
-                
+            
                 <h4 class="card-author">Posted by: {{user.username}} on {{format_date date_created}}</h4>
-                <p class="container row justify-content-end"><span class="edit-delete-buttons"><a
-                            href="api/posts/edit-post/{{id}}" class="btn btn-warning edit-button"
-                            id="edit-{{id}}">Edit</a><button class="btn btn-danger delete-button"
-                            id="delete-{{id}}">Delete</i></button></span></p>
+                <p class="container row justify-content-end"><span class="edit-delete-buttons"> <button
+                  class='btn btn-sm btn-info m-0'
+                  data-id='{{id}}'
+                  data-function='edit'
+                >EDIT</button>
+                <button
+                  class='btn btn-sm btn-danger m-0'
+                  data-id='{{id}}'
+                  data-function='delete'                  
+                >DELETE</button></span></p>
+            
             </section>
     </div>
     {{!-- <script src="/js/deletePost.js"></script> --}}
