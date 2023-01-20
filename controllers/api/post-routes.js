@@ -147,15 +147,85 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
 
 // Delete a single post by id
 router.delete('/:id', withAuth, async (req, res) => {
-  await Post.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((deletedpost) => {
-      res.json(deletedpost);
-    })
-    .catch((err) => res.json(err));
+  try {
+
+    const singlePostData = await Post.findOne({
+      where: {
+        id: req.params.id
+      },
+      attributes: ['media']
+    });
+
+    const post = singlePostData.get({ plain: true });
+    console.log('post: ', post);
+
+    if (post.media) {
+
+      const public_id_list = post.media.split(',');
+      const mediaUrl = [];
+
+      for (let i = 0; i < public_id_list.length; i++) {
+        const mediaFile = public_id_list[i].split('?');
+        const public_id = mediaFile[0];
+
+        let resource_type;
+        if (mediaFile.length >= 2) {
+          resource_type = mediaFile[1];
+        }
+
+        if (resource_type === 'image') {
+          console.log('public_id: ', public_id);
+          const result = await cloudinary.v2.uploader.destroy(public_id);
+          console.log('Delete result: ', result)
+        } else if (resource_type === 'video') {
+          console.log('public_id: ', public_id);
+          const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'video' });
+          console.log('Delete result: ', result)
+
+        } else { // raw file
+          const raw_public_id = public_id.split('!')[0];
+          console.log('raw_public_id: ', raw_public_id);
+          const result = await cloudinary.v2.uploader.destroy(raw_public_id, { resource_type: 'raw' });
+          console.log('Delete result: ', result);
+        }
+      }
+    }
+
+    const deletedpost = await Post.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    res.json(deletedpost);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(err);
+  }
+});
+
+router.delete('/media', withAuth, async (req, res) => {
+  try {
+    
+    const public_id = req.body.public_id;
+    const resource_type = req.body.resource_type;
+    
+    if (resource_type === 'image') {        
+        const result = await cloudinary.v2.uploader.destroy(public_id);
+        console.log('Delete result: ', result)
+      } else if (resource_type === 'video') {        
+        const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'video' });
+        console.log('Delete result: ', result)
+      } else {        
+        const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'raw' });
+        console.log('Delete result: ', result);
+      }      
+
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // finds the post the user requested to edit and displays it in an editable format
@@ -168,7 +238,7 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
       where: {
         id: post_id,
       },
-      attributes: ['id', 'post_title', 'post_content', 'date_created'],
+      attributes: ['id', 'post_title', 'post_content', 'media', 'date_created'],
       include: [
         {
           model: User,
@@ -177,6 +247,67 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
       ]
     })
     const post = editPostData.get({ plain: true });
+
+
+
+    if (post.media) {
+
+      // id1,id2,id2 => ['id1','id2','id3']
+      const public_id_list = post.media.split(',');
+      const mediaUrl = [];
+
+      for (let i = 0; i < public_id_list.length; i++) {
+        // const info = await cloudinary.v2.api.resource(public_id_list[i]);
+        // console.log("media info: ",info);
+        const mediaFile = public_id_list[i].split('?');
+        const public_id = mediaFile[0];
+        let resource_type;
+        if (mediaFile.length >= 2) {
+          resource_type = mediaFile[1];
+        }
+
+        if (resource_type === 'video') {
+          const video = await cloudinary.video(public_id, {
+            controls: false,
+            transformation:
+              { height: 100, quality: 50, crop: "scale" },
+            fallback_content: "Your browser does not support HTML5 video tags."
+          });
+
+          const media = {
+            url: video,
+            video: true,
+            id: public_id,
+            resource_type
+          };
+          mediaUrl.push(media);
+        } else if (resource_type === 'raw') {
+          const raw = public_id.split('!')[1];
+          const id = public_id.split('!')[0];
+          const media = {
+            url: raw,
+            raw: true,
+            id: id,
+            resource_type
+          }
+          mediaUrl.push(media);
+        } else {
+          const image = await cloudinary.url(public_id, { transformation: { width: 100, crop: "scale" } });
+          const media = {
+            url: image,
+            image: true,
+            id: public_id,
+            resource_type
+          }
+          mediaUrl.push(media);
+        }
+      }
+
+      post.media = mediaUrl;
+      console.log('new link: ', post.media);
+
+    }
+
     res.render('edit-post', { post });
 
   } catch (err) {
