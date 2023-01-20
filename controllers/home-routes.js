@@ -5,7 +5,11 @@ require('dotenv').config();
 const cloudinary = require("cloudinary");
 
 // gets all posts (from all users) for display on the homepage
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
+  res.render('/index.html');
+})
+
+router.get('/home', async (req, res) => {
   try {
     const blogPostData = await Post.findAll({
       attributes: ['id', 'post_title', 'post_content', 'user_id', 'media', 'date_created'],
