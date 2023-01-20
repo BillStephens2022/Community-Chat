@@ -7,12 +7,16 @@
         <div class="container text-center image-container">
         {{#if media.length}}
           {{#each media}} 
-            <div class="container text-center">
+            <div class="container text-center image-container">
             {{#if image}}
-                <img src="{{url}}" alt="image" class="card-image"> 
+            <div class="container text-center image-container">
+                <img src="{{url}}" alt="image" class="card-image">
+            </div>
             {{/if}}
             {{#if video}}
-                {{{url}}}                        
+            <div class="container text-center image-container">
+                {{{url}}} 
+            </div>                     
             {{/if}}
             {{#if raw}}                   
             <a href="{{url}}" download> 📂file Download📂 </a>
