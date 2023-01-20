@@ -6,9 +6,12 @@ const saveButton = document.getElementsByClassName('edit-submit-button')[0];
 // function the submits the edited post
 const editPost = async (event) => {
     event.preventDefault();
-    post_id = getEditPostId(event);
+    // post_id = getEditPostId(event);
     const post_title = document.querySelector('#edit-post-title').value.trim();
-    const post_content = document.querySelector('#edit-post-content').value.trim();
+    const post_content = document.querySelector('#eit-post-content').value.trim();
+    const post_id = document.getElementById('post_id').value;
+
+
     if (post_id) {
         const response = await fetch(`/api/posts/${post_id}`, {
           method: 'PUT',
@@ -31,9 +34,62 @@ const editPost = async (event) => {
 saveButton.addEventListener('click', editPost);
 
 // gets the post ID of the post being edited.
-function getEditPostId (event) {
-    event.preventDefault();
-    let buttonId = event.target.id;
-    const post_id = buttonId.slice(5,);
-    return post_id;
+// function getEditPostId (event) {
+//     event.preventDefault();
+//     let buttonId = event.target.id;
+//     const post_id = buttonId.slice(5,);
+//     return post_id;
+// }
+
+
+const mediaHandler = async (event) => {
+  // console.log('hit the button');
+  // console.log('Event', event);
+  if (event.target.hasAttribute('data-id')) {
+    const id = event.target.getAttribute('data-id');    
+    const resource_type = event.target.getAttribute('data-resource');
+    const post_id = document.getElementById('post_id').value;
+    console.log('data-id: ',id);
+    console.log('resource_type: ',resource_type);
+    
+  
+    const delOk = confirm("Do you want to delete the media?");
+    if (delOk) {
+
+      const response = await fetch(`/api/posts/media/`, {
+        method: 'DELETE',
+        body: JSON.stringify({
+          public_id: id,
+          resource_type
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+    });
+
+      // if (resource_type === 'image') {        
+      //   const result = await cloudinary.v2.uploader.destroy(id);
+      //   console.log('Delete result: ', result)
+      // } else if (resource_type === 'video') {        
+      //   const result = await cloudinary.v2.uploader.destroy(id, { resource_type: 'video' });
+      //   console.log('Delete result: ', result)
+      // } else {        
+      //   const result = await cloudinary.v2.uploader.destroy(id, { resource_type: 'raw' });
+      //   console.log('Delete result: ', result);
+      // }      
+
+      if (response.ok) {
+        console.log('Delete Success');
+        document.location.reload();
+        // document.location.replace(`/edit-post/${post_id}`);
+      } else {
+        alert('Failed to delete media');
+      }
+    }    
+  }
 }
+
+
+document
+  .querySelector('.media-list')
+  .addEventListener('click', mediaHandler);

@@ -140,6 +140,189 @@ menu-toggle .bar {
     color: #fff;
 }
 
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    transition: all 0.3s ease-in-out;
+    background: var(--white);
+}
+
+
+@media screen and (max-width: 768px) {
+    .nav-container {
+        position: relative;
+
+    }
+
+    .nav-menu {
+        display: grid;
+        grid-template-columns: auto;
+        /* background: var(--rgba-yellow); */
+        margin: 0;
+        width: 100%;
+        position: absolute;
+        top: 80px;
+        left: -100%;
+        opacity: 0;
+        transition: all 0.5s ease;
+    }
+
+    #navbar-logo {
+        margin-left: 20px;
+    }
+
+    .nav-menu.active {
+        background: transparent;
+        left: 0;
+        opacity: 1;
+        transition: all 0.5s ease;
+    }
+
+    .nav-links {
+        text-align: center;
+        line-height: 60px;
+        width: 100%;
+        display: table;
+    }
+
+
+    .navbar {
+        width: 100%;
+    }
+
+    .nav-links-btn {
+        border: none;
+        padding: 0;
+        border-radius: 0;
+        /* background-color: var(--dark-green); */
+        color: var(--white);
+        transition: all 0.4s ease-out;
+
+    }
+
+    #mobile-menu {
+        position: absolute;
+        top: 20%;
+        right: 5%;
+        transform: translate(5%, 20%);
+    }
+
+
+    .menu-toggle .bar {
+        display: block;
+        cursor: pointer;
+    }
+
+    .menu-toggle:hover {
+        cursor: pointer;
+    }
+
+    #mobile-menu.is-active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    #mobile-menu.is-active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu.is-active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    transition: all 0.3s ease-in-out;
+    background: var(--white);
+}
+
+@media screen and (max-width: 768px) {
+    .nav-container {
+        position: relative;
+
+    }
+
+    .nav-menu {
+        display: grid;
+        grid-template-columns: auto;
+        /* background: var(--rgba-yellow); */
+        margin: 0;
+        width: 100%;
+        position: absolute;
+        top: 80px;
+        left: -100%;
+        opacity: 0;
+        transition: all 0.5s ease;
+    }
+
+    #navbar-logo {
+        margin-left: 20px;
+    }
+
+    .nav-menu.active {
+        background: transparent;
+        left: 0;
+        opacity: 1;
+        transition: all 0.5s ease;
+    }
+
+    .nav-links {
+        text-align: center;
+        line-height: 60px;
+        width: 100%;
+        display: table;
+    }
+
+
+    .navbar {
+        width: 100%;
+    }
+
+    .nav-links-btn {
+        border: none;
+        padding: 0;
+        border-radius: 0;
+        /* background-color: var(--dark-green); */
+        color: var(--white);
+        transition: all 0.4s ease-out;
+
+    }
+
+    #mobile-menu {
+        position: absolute;
+        top: 20%;
+        right: 5%;
+        transform: translate(5%, 20%);
+    }
+
+
+    .menu-toggle .bar {
+        display: block;
+        cursor: pointer;
+    }
+
+    .menu-toggle:hover {
+        cursor: pointer;
+    }
+
+    #mobile-menu.is-active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    #mobile-menu.is-active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu.is-active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+}
+
 
 .menu-toggle .bar {
     width: 25px;
@@ -233,10 +416,89 @@ menu-toggle .bar {
 
 }
 
+@media screen and (max-width: 768px) {
+    .nav-container {
+        position: relative;
+
+    }
 
 
+    .nav-menu {
+        display: grid;
+        grid-template-columns: auto;
+        /* background: var(--rgba-yellow); */
+        margin: 0;
+        width: 100%;
+        position: absolute;
+        top: 80px;
+        left: -100%;
+        opacity: 0;
+        transition: all 0.5s ease;
+    }
+
+    #navbar-logo {
+        margin-left: 20px;
+    }
+
+    .nav-menu.active {
+        background: transparent;
+        left: 0;
+        opacity: 1;
+        transition: all 0.5s ease;
+    }
+
+    .nav-links {
+        text-align: center;
+        line-height: 60px;
+        width: 100%;
+        display: table;
+    }
 
 
+    .navbar {
+        width: 100%;
+    }
+
+    .nav-links-btn {
+        border: none;
+        padding: 0;
+        border-radius: 0;
+        /* background-color: var(--dark-green); */
+        color: var(--white);
+        transition: all 0.4s ease-out;
+
+    }
+
+    #mobile-menu {
+        position: absolute;
+        top: 20%;
+        right: 5%;
+        transform: translate(5%, 20%);
+    }
+
+
+    .menu-toggle .bar {
+        display: block;
+        cursor: pointer;
+    }
+
+    .menu-toggle:hover {
+        cursor: pointer;
+    }
+
+    #mobile-menu.is-active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    #mobile-menu.is-active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu.is-active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+}
 h6 {
     text-align: center;
     color: white;
@@ -448,7 +710,97 @@ h6 {
       text-align: center;
     }
 
-}   
+}  
+
+.footer {
+    background-color: rgb(199, 196, 196);
+    padding: 5rem;
+    margin-top: 8rem;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+
+
+
+.footer-text {
+    font-size: 1rem;
+    color: brown;
+}
+
+.footer-list {
+    display: flex;
+    list-style: none;
+}
+
+
+.footer-list a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #fff;
+    font-size: 1.2rem;
+    margin: 0.5rem;
+}
+
+.footer-list a:hover {
+ color: goldenrod;
+ transition: all 0.5s;
+}
+
+
+.footer-btn {
+    font-size: 1.5rem;
+    background-color: green;
+    color: #fff;
+    padding: 0.7rem;
+    border: none;
+    text-align: center;
+    box-shadow: rgba(60, 64, 67, 2) 0 1px 2px 0,
+        rgba(60, 64, 67, 0.15) 0 2px 4px 3px;
+    cursor: pointer;
+
+}
+
+@media screen and (max-width: 900px) {
+    .footer-text {
+        font-size: 0.9rem;
+    }
+
+    .footer-list a {
+        font-size: 0.9rem;
+    }
+}
+
+
+
+@media screen and (max-width: 795px) {
+    .footer-text {
+        font-size: 0.7rem;
+    }
+
+    .footer-list a {
+        font-size: 0.7rem;
+    }
+}
+
+@media screen and (max-width: 672px) {
+    .footer-text {
+        font-size: 0.6rem;
+    }
+
+    .footer-list a {
+        font-size: 0.6rem;
+    }
+
+
+}
+
+@media screen and (max-width: 672px) {
+    .footer-list a {
+        display: block;
+    }
+}
+
 
 
 

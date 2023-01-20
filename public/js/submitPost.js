@@ -1,12 +1,17 @@
 const public_id_list = [];
 
+// Maxium: 20 files and 100Mb
 var cloudinaryWidget = cloudinary.createUploadWidget({
-    cloudName: 'drmapjksn', uploadPreset: 'lkogtwek', folder: 'widgetUpload'
-},(error, result) => { 
+    cloudName: 'drmapjksn', uploadPreset: 'lkogtwek', max_files: '20', maxFileSize: '100000000', folder: 'widgetUpload'
+},(error, result) => {     
     if (!error && result && result.event === "success") { 
         console.log("result info ", result.info);
-        public_id_list.push(result.info.public_id);        
-        console.log("public ids: ", public_id_list);
+        if(result.info.resource_type !== 'raw')
+            public_id_list.push(result.info.public_id +'?'+result.info.resource_type);
+        else 
+            public_id_list.push(result.info.public_id +'!'+result.info.secure_url +'?'+result.info.resource_type);
+        
+        console.log("public ids: ", public_id_list);        
       }
   }
 );
