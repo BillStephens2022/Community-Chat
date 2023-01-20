@@ -23,7 +23,7 @@
 body {
 
     font-size: 1.75rem;
-    background-image: linear-gradient(rgba(0, 0, 50, 0.8), rgba(0, 0, 50, 0.8)), url(./images/social-media.jpg);
+    background-image: linear-gradient(rgba(0, 0, 50, 0.8), rgba(0, 0, 50, 0.8)), url(/images/social-media.jpg);
     height: 700px;
     background-repeat: no-repeat;
     background-size: cover;
@@ -205,7 +205,7 @@ body {
     margin-left: -10px;
     color: transparent;
     -webkit-text-stroke: 3px #fff;
-    background: url(images/back.png);
+    background: url(/images/back.png);
     -webkit-background-clip: text;
     animation: back 20s linear infinite;
 

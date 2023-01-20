@@ -1,17 +1,49 @@
-<section class="card mb-3">
+{{!-- The dashboard is where user will see all of the posts they've made as well as a button to create a new post --}}
+<section class="mb-3 pb-3 pt-3 profile-card">
         <h2 class="card-title">{{user.first_name}}{{user.last_name}}</h2>
         <h2 class="card-title">{{user.date_of_birth}}</h2>
         {{#if user.profile_picture}}
-          <div class="container text-center">
-             <img class="col-lg-12" src="{{user.profile_picture}}" alt="{{user.profile_picture}}">
+          <div class="container text-center profile-picture-container">
+             <img class="col-lg-12 profile-picture" src="{{user.profile_picture}}" alt="{{user.profile_picture}}">
           </div>
         {{/if}}
+  <section id="create-post-section">
+  <button class="btn m-2" id="create-post-button">Create New Post</button>
 </section>
+</section>
+<div class="container-lg my-3">
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- Carousel indicators -->
+            <ol class="carousel-indicators">
+                <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
+                <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+                <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
+            </ol>
+        
+            <!-- Wrapper for carousel items -->
+            <h2 class="carousel-header">My Favorite Pics</h2>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/download-1.jpg" class="d-block w-100 carousel-image" alt="Slide 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/download.jpg" class="d-block w-100 carousel-image" alt="Slide 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/download-1.jpg" class="d-block w-100 carousel-image" alt="Slide 3">
+                </div>
+            </div>
+        
+            <!-- Carousel controls -->
+            <a class="carousel-control-prev" href="#myCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+    </div>
 
-{{!-- The dashboard is where user will see all of the posts they've made as well as a button to create a new post --}}
-<section id="create-post-section">
-  <button class="btn btn-primary m-5" id="create-post-button">Create New Post</button>
-</section>
 {{#if posts.length}}
 <div class="container">
   <section class="posts col">
@@ -22,5 +54,6 @@
   {{/if}}
 </div>
 
+<script src="index.js"></script>
 <script src="/js/createPost.js"></script>
 <script src="/js/deletePost.js"></script>
