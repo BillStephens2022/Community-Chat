@@ -8,5 +8,11 @@ const withAuth = (req, res, next) => {
       next();
     }
   };
+
+// Routing middleware function
+const logRouteInfo = (req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+};
   
-  module.exports = withAuth;
+module.exports = withAuth;

@@ -6,7 +6,7 @@ const registerFormHandler = async (event) => {
     const password = document.querySelector('#register-password').value.trim();
     // ensures all 3 values are entered before sending to the back end
     if (username && email && password) {
-      const response = await fetch('/api/users', {
+      const response = await fetch('/auth/register', {
         method: 'POST',
         body: JSON.stringify({ username, email, password }),
         headers: { 'Content-Type': 'application/json' },
