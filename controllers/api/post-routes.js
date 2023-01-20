@@ -212,13 +212,13 @@ router.delete('/media', withAuth, async (req, res) => {
     const resource_type = req.body.resource_type;
     
     if (resource_type === 'image') {        
-        const result = await cloudinary.v2.uploader.destroy(id);
+        const result = await cloudinary.v2.uploader.destroy(public_id);
         console.log('Delete result: ', result)
       } else if (resource_type === 'video') {        
-        const result = await cloudinary.v2.uploader.destroy(id, { resource_type: 'video' });
+        const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'video' });
         console.log('Delete result: ', result)
       } else {        
-        const result = await cloudinary.v2.uploader.destroy(id, { resource_type: 'raw' });
+        const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'raw' });
         console.log('Delete result: ', result);
       }      
 
