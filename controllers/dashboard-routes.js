@@ -14,7 +14,10 @@ router.get('/', withAuth, async (req, res) => {
 
     const user = userData.get({ plain: true });
 
-    user.profile_picture = await cloudinary.url(user.profile_picture, { transformation: { width: 100, crop: "scale" } })
+    user.profile_picture = await cloudinary.url(user.profile_picture, { transformation: [
+      {gravity: "face", aspect_ratio: "1.0", width: 150, crop: "fill"},
+      {radius: "max"}
+      ] })
 
     // Find the logged in user based on the session ID
     const userPostData = await Post.findAll({

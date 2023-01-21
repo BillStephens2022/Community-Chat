@@ -1,3 +1,29 @@
+var imgEl = document.getElementById('picture');
+
+
+// function showImage(src,target) {
+//     var fr=new FileReader();
+//     // when image is loaded, set the src of the image where you want to display it
+//     fr.onload = function(e) { target.src = this.result; };
+//     src.addEventListener("change",function() {
+//       // fill fr with image data    
+//       fr.readAsDataURL(src.files[0]);
+//     });
+//   }
+
+document.getElementById('proflie-picture').onchange = function() {
+    // fire the upload here
+    const file = document.querySelector('#proflie-picture');
+    var fileReader = new FileReader();    
+    fileReader.readAsDataURL(file.files[0]);
+    fileReader.addEventListener("load", function () {
+        imgEl.setAttribute("src", this.result);          
+    });    
+    
+};
+
+
+
 // function for creating and submitting a comment to a post
 const submitProfile = async (event) => {
     event.preventDefault();
