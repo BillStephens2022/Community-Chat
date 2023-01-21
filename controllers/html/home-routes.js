@@ -6,7 +6,7 @@ const cloudinary = require("cloudinary");
 
 // gets all posts (from all users) for display on the homepage
 router.get('/', logRouteInfo, (req, res) => {
-  res.render('/index.html');
+  res.render('welcome', { logged_in: req.user ? true : false });
 })
 
 router.get('/home', logRouteInfo, async (req, res) => {
