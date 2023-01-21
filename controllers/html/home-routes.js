@@ -1,15 +1,15 @@
 const router = require('express').Router();
-const { Post, User, Comment } = require('../models');
-const withAuth = require('../utils/auth');
+const { Post, User, Comment } = require('../../models');
+const { withAuth, logRouteInfo } = require('../../utils/auth');
 require('dotenv').config();
 const cloudinary = require("cloudinary");
 
 // gets all posts (from all users) for display on the homepage
-router.get('/', (req, res) => {
+router.get('/', logRouteInfo, (req, res) => {
   res.render('/index.html');
 })
 
-router.get('/home', async (req, res) => {
+router.get('/home', logRouteInfo, async (req, res) => {
   try {
     const blogPostData = await Post.findAll({
       attributes: ['id', 'post_title', 'post_content', 'user_id', 'media', 'date_created'],
@@ -89,10 +89,10 @@ router.get('/home', async (req, res) => {
       }
     }
 
-
     res.render('homepage', {
       posts,
-      logged_in: req.session.logged_in,
+      // logged_in: req.session.logged_in, (note: replaced this line of code with line below after Passport integration)
+      logged_in: req.user ? true : false,
       // sends over the current 'countVisit' session variable to be rendered
       countVisit: req.session.countVisit,
     })
@@ -112,37 +112,19 @@ router.get('/home', async (req, res) => {
 });
 
 // profile
-router.get('/profile', withAuth, (req, res) => {
+router.get('/profile', logRouteInfo, withAuth, (req, res) => {
   // if (!req.session.sign_up) {
   //   res.redirect('/dashboard');
   //   return;
   // }
   res.render('profile', {
-    logged_in: req.session.logged_in
+    // logged_in: req.session.logged_in  (note: replaced this line of code with line below after Passport integration)
+    logged_in: req.user ? true : false
   });
 });
 
-
-// directs user to login page when they choose to log in
-router.get('/login', (req, res) => {
-  if (req.session.logged_in) {
-    res.redirect('/dashboard');
-    return;
-  }
-  res.render('login');
-});
-
-// directs user to register page if user is not logged in, otherwise user will be brought to dashboard
-router.get('/register', (req, res) => {
-  if (req.session.logged_in) {
-    res.redirect('/dashboard');
-    return;
-  }
-  res.render('register');
-});
-
 // renders the single-post page when a user clicks on a single post on the homepage
-router.get('/post/:id', withAuth, async (req, res) => {
+router.get('/post/:id', logRouteInfo, withAuth, async (req, res) => {
 
   try {
     // Find the logged in user based on the post ID
@@ -225,12 +207,11 @@ router.get('/post/:id', withAuth, async (req, res) => {
 
     // post.media = await cloudinary.url(post.media, {transformation: {width: 300, crop: "scale"}})
 
-    res.render('singlePost', { post, logged_in: req.session.logged_in });
+    res.render('singlePost', { post, logged_in: req.user ? true : false });
 
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
 
 module.exports = router;
