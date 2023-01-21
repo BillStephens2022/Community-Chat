@@ -9,10 +9,10 @@ router.get('/', logRouteInfo, withAuth, async (req, res) => {
   console.log('***Dashboard Session User ID: *****************')
   console.log('req.user: ', req.user);
   try {
-    const userData = await User.findByPk(req.session.user_id, {
+    const userData = await User.findByPk(req.user.id, {
       attributes: { exclude: ['password'] }
     });
-
+    
     const user = userData.get({ plain: true });
 
     user.profile_picture = await cloudinary.url(user.profile_picture, { transformation: { width: 100, crop: "scale" } })

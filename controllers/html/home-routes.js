@@ -214,4 +214,30 @@ router.get('/post/:id', logRouteInfo, withAuth, async (req, res) => {
   }
 });
 
+// directs user to login page when they choose to log in
+router.get('/login', logRouteInfo, (req, res) => {
+  if (req.user) {
+    res.redirect('/dashboard');
+    return;
+  }
+  res.render('login');
+});
+
+// directs user to register page if user is not logged in, otherwise user will be brought to dashboard
+router.get('/register', logRouteInfo, (req, res) => {
+  if (req.user) {
+    res.redirect('/dashboard');
+    return;
+  }
+  res.render('register');
+});
+
+router.get('/logout', logRouteInfo, (req, res) => {
+  if (req.user) {
+      req.logout();
+      req.user = null;
+  }
+  res.redirect('/');
+});
+
 module.exports = router;
