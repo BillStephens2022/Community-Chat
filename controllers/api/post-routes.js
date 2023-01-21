@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Post, User } = require('../../models');
-const withAuth = require('../../utils/auth');
+const { withAuth, logRouteInfo } = require('../../utils/auth');
 const { format_date } = require('../../utils/helpers');
 const fs = require('fs');
 // for cloudinary use
@@ -10,7 +10,7 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 // const upload = multer();
 
-router.get('/', (req, res) => {
+router.get('/', logRouteInfo, (req, res) => {
   console.log('GET request received!');
 });
 
@@ -57,7 +57,7 @@ router.get('/', (req, res) => {
 //   }
 // });
 
-router.post('/', withAuth, async (req, res) => {
+router.post('/', logRouteInfo, withAuth, async (req, res) => {
   try {
     console.log('body: ', req.body);
 
@@ -72,7 +72,8 @@ router.post('/', withAuth, async (req, res) => {
       post_title: req.body.title,
       post_content: req.body.content,
       media: media,
-      user_id: req.session.user_id
+      // user_id: req.session.user_id
+      user_id: req.user.id   //note:  updated above line to this after adding Passport
     })
     res.status(200).json(newPostData);
 
@@ -116,7 +117,7 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
         },
         {
           where: {
-            id: req.session.user_id
+            id: req.session.user_id   //do we need to update to id: req.user.id ?
           }
         }
       )
@@ -131,7 +132,7 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
         },
         {
           where: {
-            id: req.session.user_id
+            id: req.session.user_id  //do we need to update to id: req.user.id ?
           }
         }
       )

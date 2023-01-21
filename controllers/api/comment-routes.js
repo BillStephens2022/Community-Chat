@@ -2,8 +2,6 @@ const router = require('express').Router();
 const { Comment, Post, User } = require('../../models');
 const { withAuth, logRouteInfo } = require('../../utils/auth');
 
-
-
 // Creates a new comment in the back end after user submits the new post on front end
 router.post('/', logRouteInfo, withAuth, async (req, res) => {
     try {
@@ -18,6 +16,5 @@ router.post('/', logRouteInfo, withAuth, async (req, res) => {
       res.status(500).json(err);
     }
   });
-
 
 module.exports = router;
