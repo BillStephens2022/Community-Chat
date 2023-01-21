@@ -74,6 +74,7 @@ router.get('/', withAuth, async (req, res) => {
             // console.log('final: ', final);
 
             const media = {
+              public_id: public_id,
               url: video,
               video: true
             };
@@ -90,6 +91,7 @@ router.get('/', withAuth, async (req, res) => {
           }else {
             const image = await cloudinary.url(public_id, { transformation: { width: 300, crop: "scale" } });
             const media = {
+              public_id: public_id,
               url: image,
               image: true
             }
