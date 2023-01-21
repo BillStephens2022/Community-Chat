@@ -44,5 +44,5 @@ function cleanModal() {
     document.getElementById('image-show').innerHTML = "";
 }
 
-document.querySelector('.post-list').addEventListener('click', call);
+document.querySelector('#post-list-show').addEventListener('click', call);
 document.querySelector('#close-modal').addEventListener('click', cleanModal);
