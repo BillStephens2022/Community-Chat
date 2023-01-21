@@ -93,10 +93,16 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
 
     if (req.file) {
 
+      if(req.body.public_id){
+        console.log('req.body.public_id: ',req.body.public_id);
+        const delResult = await cloudinary.v2.uploader.destroy(req.body.public_id);
+        console.log('Delete result: ', delResult);
+      }
+
       const file = req.file.path;
       console.log('file path: ', file);
       const result = await cloudinary.uploader.upload(file, {
-        resource_type: 'auto',
+        resource_type: 'image',
         folder: 'community-chat/profile'
       });
 

@@ -107,6 +107,7 @@ router.get('/home', async (req, res) => {
       }
     })
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   };
 });
@@ -120,6 +121,30 @@ router.get('/profile', withAuth, (req, res) => {
   res.render('profile', {
     logged_in: req.session.logged_in
   });
+});
+
+
+// profile edit
+router.get('/profile/edit/',withAuth, async (req, res) => {
+  try {
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: ['first_name', 'last_name', 'date_of_birth', 'profile_picture'],
+    });
+
+    const user = userData.get({ plain: true });
+    console.log("user", user);
+
+    const url = await cloudinary.url(user.profile_picture, { transformation: { width: 200, crop: "scale" } });
+    
+    res.render('profile-edit', {
+      ...user,      
+      url,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json(err);
+  }
 });
 
 
@@ -228,6 +253,7 @@ router.get('/post/:id', withAuth, async (req, res) => {
     res.render('singlePost', { post, logged_in: req.session.logged_in });
 
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 });
