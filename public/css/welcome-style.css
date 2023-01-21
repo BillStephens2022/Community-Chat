@@ -23,12 +23,13 @@
 body {
 
     font-size: 1.75rem;
-    background-image: linear-gradient(rgba(0, 0, 50, 0.8), rgba(0, 0, 50, 0.8)), url(/images/social-media.jpg);
-    height: 700px;
+    /* background-image: linear-gradient(rgba(0, 0, 50, 0.8), rgba(0, 0, 50, 0.8)), url(/images/social-media.jpg);
+    height: 700px; */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 }
+
 
 
 
