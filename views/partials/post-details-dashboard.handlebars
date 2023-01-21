@@ -1,6 +1,5 @@
 
 
-
     {{!-- format for cards rendered for each post on the dashboard page. User will also see edit and delete buttons for each post --}}
     <div class="col-lg-12"> 
         
@@ -8,12 +7,13 @@
                 <a href="/post/{{id}}" class="post-links"><h2 class="card-title">{{post_title}}</h2>
                 <h5 class="card-content">{{post_content}}</h5></a>
                 {{#if media.length}}
-                <input value="{{media}}" type="hidden" id="media"/>
+                <input value="{{json media}}" type="hidden" id="{{id}}"/>
                 {{#each media}}     
-                {{public_id}}                         
+                {{!-- {{public_id}}                          --}}
+                {{!-- {{../id}} --}}
                     {{#if image}}
                     <div class="container text-center image-container">
-                        <img src="{{url}}" onclick="call()" alt="image" class="card-image" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <img src="{{url}}" alt="image" class="card-image" data-bs-toggle="modal" data-bs-target="#exampleModal" data-post="{{../id}}" data-public-id="{{public_id}}">
                     </div> 
                     {{/if}}
                     {{#if video}}

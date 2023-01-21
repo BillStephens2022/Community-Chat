@@ -31,10 +31,18 @@ app.use(session(sess));
 // handlebars engine
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+
+hbs.handlebars.registerHelper('json', function(context) {
+  return JSON.stringify(context);
+});
+
+
 // middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 // turn on routes
 app.use(routes);
