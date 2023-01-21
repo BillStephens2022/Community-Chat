@@ -9,7 +9,7 @@ var cloudinaryWidget = cloudinary.createUploadWidget({
         if(result.info.resource_type !== 'raw')
             public_id_list.push(result.info.public_id +'?'+result.info.resource_type);
         else 
-            public_id_list.push(result.info.public_id +'!'+result.info.secure_url +'?'+result.info.resource_type);
+            public_id_list.push(result.info.public_id +'!'+result.info.secure_url + '!'+ result.info.original_filename +'?'+result.info.resource_type);
         
         console.log("public ids: ", public_id_list);        
       }

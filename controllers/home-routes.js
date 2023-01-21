@@ -69,9 +69,11 @@ router.get('/home', async (req, res) => {
             mediaUrl.push(media);
           } else if (resource_type === 'raw') {
             const raw = public_id.split('!')[1];
+            const file_name = public_id.split('!')[2];
             const media = {
               url: raw,
-              raw: true
+              raw: true,
+              file_name
             }
             mediaUrl.push(media);
           } else {
@@ -228,9 +230,11 @@ router.get('/post/:id', withAuth, async (req, res) => {
           mediaUrl.push(media);
         } else if (resource_type === 'raw') {
           const raw = public_id.split('!')[1];
+          const file_name = public_id.split('!')[2];
           const media = {
             url: raw,
-            raw: true
+            raw: true,
+            file_name
           }
           mediaUrl.push(media);
         } else {
