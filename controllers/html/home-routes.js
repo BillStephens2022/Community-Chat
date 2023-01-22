@@ -156,59 +156,8 @@ router.get('/post/:id', logRouteInfo, withAuth, async (req, res) => {
     console.log('public_id: ', post.media);
 
     if (post.media) {
-
-      const public_id_list = post.media.split(',');
-      const mediaUrl = [];
-
-      for (let i = 0; i < public_id_list.length; i++) {
-        const mediaFile = public_id_list[i].split('?');
-        const public_id = mediaFile[0];
-        let resource_type;
-        if (mediaFile.length >= 2) {
-          resource_type = mediaFile[1];
-        }
-
-        if (resource_type === 'video') {
-          const video = await cloudinary.video(public_id, {loop:true, controls:true,
-            transformation:
-               {height: 300, quality: 70, crop: "scale"},
-            fallback_content:"Your browser does not support HTML5 video tags."});
-
-          // let edited = video.split(' ');
-          // edited.splice(1, 0, 'controls');
-          // const final = edited.join(' ');
-          // console.log('final: ', final);
-
-          const media = {
-            url: video,
-            video: true
-          };
-          mediaUrl.push(media);
-        } else if (resource_type === 'raw') {
-          const raw = public_id.split('!')[1];
-          const file_name = public_id.split('!')[2];
-          const media = {
-            url: raw,
-            raw: true,
-            file_name
-          }
-          mediaUrl.push(media);
-        } else {
-          const image = await cloudinary.url(public_id, { transformation: { width: 300, crop: "scale" } });
-          const media = {
-            url: image,
-            image: true
-          }
-          mediaUrl.push(media);
-        }
-
-      }
-
-      post.media = mediaUrl;
-      console.log('new link: ', post.media);
+      mediaControl.mediaParse(post);
     }
-
-    // post.media = await cloudinary.url(post.media, {transformation: {width: 300, crop: "scale"}})
 
     res.render('singlePost', { post, logged_in: req.user ? true : false });
 
