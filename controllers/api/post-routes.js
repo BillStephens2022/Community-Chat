@@ -207,25 +207,62 @@ router.delete('/:id', withAuth, async (req, res) => {
   }
 });
 
-router.delete('/media', withAuth, async (req, res) => {
+router.put('/media', withAuth, async (req, res) => {
   try {
-    
+
     const public_id = req.body.public_id;
     const resource_type = req.body.resource_type;
-    
-    if (resource_type === 'image') {        
-        const result = await cloudinary.v2.uploader.destroy(public_id);
-        console.log('Delete result: ', result)
-      } else if (resource_type === 'video') {        
-        const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'video' });
-        console.log('Delete result: ', result)
-      } else {        
-        const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'raw' });
-        console.log('Delete result: ', result);
-      }      
 
-    res.status(200).json(result);
+    if (resource_type === 'image') {
+      const result = await cloudinary.v2.uploader.destroy(public_id);
+      console.log('Delete result: ', result)
+    } else if (resource_type === 'video') {
+      const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'video' });
+      console.log('Delete result: ', result)
+    } else {
+      const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'raw' });
+      console.log('Delete result: ', result);
+    }
+
+    const singlePostData = await Post.findOne({
+      where: {
+        id: req.body.id
+      },
+      attributes: ['media']
+    });
+
+    const post = singlePostData.get({ plain: true });
+    console.log('post: ', post);
+
+    // Delete selected media from the original media
+    const public_id_list = post.media.split(',');
+
+    let delete_index = -1;
+    for (let i = 0; i < public_id_list.length; i++) {
+      if(public_id_list[i].includes(public_id)){
+        delete_index = i;
+        break;
+      }
+    }
+
+    public_id_list.splice(delete_index,1);
+
+    const newMedia = public_id_list.join();
+
+    const editedPost = await Post.update(
+      {
+        media: newMedia        
+      },
+      {
+        where: {
+          id: req.body.id
+        },
+      }
+    )
+ 
+    res.status(200).json(editedPost);
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 });
@@ -321,7 +358,7 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
 // executed after a user submits their edited post
 router.put('/:id', withAuth, async (req, res) => {
   try {
-    await Post.update(
+    const editedPost = await Post.update(
       {
         post_title: req.body.post_title,
         post_content: req.body.post_content,

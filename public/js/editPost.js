@@ -6,9 +6,9 @@ const saveButton = document.getElementsByClassName('edit-submit-button')[0];
 // function the submits the edited post
 const editPost = async (event) => {
     event.preventDefault();
-    // post_id = getEditPostId(event);
+    // const post_id = getEditPostId(event);
     const post_title = document.querySelector('#edit-post-title').value.trim();
-    const post_content = document.querySelector('#eit-post-content').value.trim();
+    const post_content = document.querySelector('#edit-post-content').value.trim();
     const post_id = document.getElementById('post_id').value;
 
 
@@ -46,10 +46,10 @@ const mediaHandler = async (event) => {
   // console.log('hit the button');
   // console.log('Event', event);
   if (event.target.hasAttribute('data-id')) {
-    const id = event.target.getAttribute('data-id');    
+    const public_id = event.target.getAttribute('data-id');    
     const resource_type = event.target.getAttribute('data-resource');
     const post_id = document.getElementById('post_id').value;
-    console.log('data-id: ',id);
+    console.log('data-id: ',public_id);
     console.log('resource_type: ',resource_type);
     
   
@@ -57,10 +57,11 @@ const mediaHandler = async (event) => {
     if (delOk) {
 
       const response = await fetch(`/api/posts/media/`, {
-        method: 'DELETE',
+        method: 'PUT',
         body: JSON.stringify({
-          public_id: id,
-          resource_type
+          public_id,
+          resource_type,
+          id: post_id
         }),
         headers: {
           'Content-Type': 'application/json'
