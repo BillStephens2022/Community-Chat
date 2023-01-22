@@ -1,9 +1,9 @@
 {{!-- single post page displaying an area to leave a comment and save --}}
 <section class="post">
-  
+
   <h3 class="h3-single-post">Original Post</h3>
   {{> single-post-details post}}
-  
+
   <h3 class="h3-comments">Comments</h3>
   <form class="submit-comment-form">
     <!-- Comment Text Area -->
@@ -18,10 +18,18 @@
 
   </form>
   <section class="comments-section">
-    {{> comment-details post.comments}}
+    {{!-- {{> comment-details post.comments}} --}}
+    {{!-- page shows all comments under a post --}}
+    <section class="comments">
+      {{!-- {{#each this}} --}}
+      {{#each post.comments}}
+      <div class="card mb-3 comment-card">
+        <h5 class="comment-card-content">{{comment_content}}</h5>
+        <h6 class="comment-card-author">Posted by: {{user.username}} on {{format_date date_created}}</h6>
+      </div>
+      {{/each}}
+    </section>
   </section>
-
-
 
 </section>
 <script src="/js/createComment.js"></script>

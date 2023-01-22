@@ -30,7 +30,7 @@ console.log("showImage.js");
   }
   
   
-  document.querySelector('.post-list').addEventListener('click', buttonHandler);
+document.getElementById('post-list').addEventListener('click', buttonHandler);
 
 
 
