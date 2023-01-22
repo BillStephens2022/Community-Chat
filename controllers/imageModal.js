@@ -30,7 +30,8 @@ async function mediaParse(post, width = 300, height = 300, quality = 90) {
                 url: video,
                 video: true,
                 id: public_id,
-                resource_type
+                resource_type,
+                public_id
             };
             mediaUrl.push(media);
         } else if (resource_type === 'raw') {
@@ -42,7 +43,8 @@ async function mediaParse(post, width = 300, height = 300, quality = 90) {
                 raw: true,
                 id: id,
                 file_name,
-                resource_type
+                resource_type,
+                public_id: id                
             }
             mediaUrl.push(media);
         } else {
@@ -51,7 +53,8 @@ async function mediaParse(post, width = 300, height = 300, quality = 90) {
                 url: image,
                 image: true,
                 id: public_id,
-                resource_type
+                resource_type,
+                public_id
             }
             mediaUrl.push(media);
         }

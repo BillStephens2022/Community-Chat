@@ -1,10 +1,12 @@
 console.log("homeImages.js");
 
 
-function call(event) {
+function showImages(event) {
     console.log('event: ', event);
     console.log('event target: ', event.target);
     if (event.target.hasAttribute('data-post')) {
+        // clean the modal
+        document.getElementById('image-show').innerHTML = ""; 
         const id = event.target.getAttribute('data-post');
         const public_id = event.target.getAttribute('data-public-id');
         const media = document.getElementById(id).value;
@@ -43,9 +45,5 @@ function call(event) {
     }
 }
 
-function cleanModal() {
-    document.getElementById('image-show').innerHTML = "";
-}
 
-document.querySelector('#post-list-show').addEventListener('click', call);
-document.querySelector('#close-modal').addEventListener('click', cleanModal);
+document.querySelector('#post-list-show').addEventListener('click', showImages);
