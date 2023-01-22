@@ -8,14 +8,13 @@ async function mediaParse(post, width = 300, height = 300, quality = 90) {
     const mediaUrl = [];
 
     for (let i = 0; i < public_id_list.length; i++) {
-        // const info = await cloudinary.v2.api.resource(public_id_list[i]);
-        // console.log("media info: ",info);
+        
         const mediaFile = public_id_list[i].split('?');
         const public_id = mediaFile[0];
         let resource_type;
         if (mediaFile.length >= 2) {
             resource_type = mediaFile[1];
-        }
+        }       
 
         if (resource_type === 'video') {
             const video = await cloudinary.video(public_id, {
