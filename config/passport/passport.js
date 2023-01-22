@@ -18,6 +18,7 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
+//LOCAL SIGNUP
 passport.use('local-signup', new LocalStrategy(
     {
         usernameField: 'email',
