@@ -32,7 +32,7 @@
           {{{url}}}<button type="submit" class="btn btn-primary btn-block mb-4 delete" data-id="{{id}}" data-resource="{{resource_type}}">Delete</button> 
       {{/if}}
       {{#if raw}}                   
-      <a href="{{url}}" download> 📂file Download📂 </a> <button type="submit" class="btn btn-primary btn-block mb-4 delete" data-id="{{id}}" data-resource="{{resource_type}}">Delete</button>
+      <a href="{{url}}" download> 📂{{file_name}} </a> <button type="submit" class="btn btn-primary btn-block mb-4 delete" data-id="{{id}}" data-resource="{{resource_type}}">Delete</button>
       {{/if}}
     </div>
     {{/each}}

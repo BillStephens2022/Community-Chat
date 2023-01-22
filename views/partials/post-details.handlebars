@@ -3,29 +3,31 @@
   <a href="/post/{{id}}" class="post-links">
     <section class="card mb-3">
         <h2 class="card-title">{{post_title}}</h2>
-        <h5 class="card-content">{{post_content}}</h5>
+        <h5 class="card-content">{{post_content}}</h5></a>
         <div class="container text-center image-container">
         {{#if media.length}}
-          {{#each media}} 
-            <div class="container text-center image-container">
-            {{#if image}}
-            <div class="container text-center image-container">
-                <img src="{{url}}" alt="image" class="card-image">
-            </div>
+                <input value="{{json media}}" type="hidden" id="{{id}}"/>
+                {{#each media}}     
+                {{!-- {{public_id}}                          --}}
+                {{!-- {{../id}} --}}
+                    {{#if image}}
+                    <div class="container text-center image-container">
+                        <img src="{{url}}" alt="image" class="card-image" data-bs-toggle="modal" data-bs-target="#exampleModal" data-post="{{../id}}" data-public-id="{{public_id}}">
+                    </div> 
+                    {{/if}}
+                    {{#if video}}
+                    <div class="container text-center image-container">
+                        {{{url}}}  
+                    </div>                      
+                    {{/if}}
+                    {{#if raw}}                   
+                    <a href="{{url}}" download> 📂{{file_name}} </a>
+                    {{/if}}
+                   
+                {{/each}}
             {{/if}}
-            {{#if video}}
-            <div class="container text-center image-container">
-                {{{url}}} 
-            </div>                     
-            {{/if}}
-            {{#if raw}}                   
-            <a href="{{url}}" download> 📂{{file_name}} </a>
-            {{/if}}
-        </div>
-        {{/each}}          
-        {{/if}}
         <h4 class="card-author">Posted by: {{user.username}} on {{format_date date_created}}</h4>
     </section>
-  </a>
+  
 </div>
 

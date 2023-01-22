@@ -1,3 +1,5 @@
+const mediaControl = require('./imageModal');
+
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
@@ -49,61 +51,8 @@ router.get('/', withAuth, async (req, res) => {
 
       if (posts[i].media) {
 
-        // id1,id2,id2 => ['id1','id2','id3']
-        const public_id_list = posts[i].media.split(',');
-        const mediaUrl = [];
-
-        for (let i = 0; i < public_id_list.length; i++) {
-          // const info = await cloudinary.v2.api.resource(public_id_list[i]);
-          // console.log("media info: ",info);
-          const mediaFile = public_id_list[i].split('?');
-          const public_id = mediaFile[0];
-          let resource_type;
-          if(mediaFile.length >= 2){
-            resource_type = mediaFile[1];
-          }
-
-          if(resource_type === 'video'){
-            const video = await cloudinary.video(public_id, {loop:true, controls:true,
-              transformation:
-                 {width: 300, quality: 70, crop: "scale"},
-              fallback_content:"Your browser does not support HTML5 video tags."});
-            // let edited = video.split(' '); 
-            // edited.splice(1,0,'controls');
-            // const final = edited.join(' ');         
-            // console.log('final: ', final);
-
-            const media = {
-              public_id: public_id,
-              url: video,
-              video: true
-            };
-            mediaUrl.push(media);  
-          }else if(resource_type === 'raw'){
-            const raw = public_id.split('!')[1];
-            const file_name = public_id.split('!')[2];
-            const media = {
-              url: raw,
-              raw: true,
-              file_name
-            }
-            mediaUrl.push(media);
-          }else {
-            const image = await cloudinary.url(public_id, { transformation: { width: 300, crop: "scale" } });
-            const media = {
-              public_id: public_id,
-              url: image,
-              image: true
-            }
-            mediaUrl.push(media);
-          }       
-
-          // cloudinary.video()
-          //mediaUrl = ['link1','link2','link3']
-        }
-
-        posts[i].media = mediaUrl;
-        console.log('new link: ', posts[i].media);
+        mediaControl.mediaParse(posts[i]);       
+      
       }
     }
 

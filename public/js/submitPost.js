@@ -8,12 +8,19 @@ var cloudinaryWidget = cloudinary.createUploadWidget({
 },(error, result) => {     
     if (!error && result && result.event === "success") { 
         console.log("result info ", result.info);
-        if(result.info.resource_type !== 'raw'){
-            public_id_list.push(result.info.public_id +'?'+result.info.resource_type);
+        if(result.info.resource_type !== 'raw'){            
             if(result.info.resource_type === 'image'){
                 const imgEl = document.createElement("img");
-                const src = `https://res.cloudinary.com/drmapjksn/image/upload/c_fill,h_100,w_100/${result.info.public_id}`;
-                imgEl.setAttribute("src",src);
+                let src;
+                if(result.info.format === 'pdf'){
+                    console.log('pdf!!!');
+                    src = `https://res.cloudinary.com/drmapjksn/image/upload/c_fill,h_100,w_100,pg_1/${result.info.public_id}.jpg`;
+                    public_id_list.push(result.info.public_id +'!'+result.info.secure_url + '!'+ result.info.original_filename +'?'+'raw');
+                }else {
+                    src = `https://res.cloudinary.com/drmapjksn/image/upload/c_fill,h_100,w_100/${result.info.public_id}`;
+                    public_id_list.push(result.info.public_id +'?'+result.info.resource_type);
+                }
+                imgEl.setAttribute("src", src);
                 imageContainer.appendChild(imgEl);
             } else if(result.info.resource_type === 'video') {
                 const imgEl = document.createElement("img");
