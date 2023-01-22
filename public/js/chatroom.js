@@ -1,6 +1,6 @@
 var socket = io();
 
-console.log("cahtroom.js")
+console.log("chatroom.js")
 var messages = document.getElementById('messages');
 var form = document.getElementById('form');
 var input = document.getElementById('input');

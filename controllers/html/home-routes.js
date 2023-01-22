@@ -108,7 +108,7 @@ router.get('/profile/edit/',withAuth, async (req, res) => {
 router.get('/chatroom', (req, res) => {
   res.render('chatroom', {
     // logged_in: req.session.logged_in  (note: replaced this line of code with line below after Passport integration)
-    // logged_in: req.user ? true : false
+    logged_in: req.user ? true : false
   });
 });
 
