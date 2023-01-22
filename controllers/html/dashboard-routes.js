@@ -1,19 +1,20 @@
 const mediaControl = require('./imageModal');
 
 const router = require('express').Router();
-const { Post, User, Comment } = require('../models');
-const withAuth = require('../utils/auth');
+const { Post, User, Comment } = require('../../models');
+const { withAuth, logRouteInfo } = require('../../utils/auth');
 require('dotenv').config();
 const cloudinary = require("cloudinary");
 
 // this is executed when the user accesses their dashboard.  The dashboard page will be loaded with all of their posts rendered
-router.get('/', withAuth, async (req, res) => {
+router.get('/', logRouteInfo, withAuth, async (req, res) => {
+  console.log('***Dashboard Session User ID: *****************')
+  console.log('req.user: ', req.user);
   try {
-
-    const userData = await User.findByPk(req.session.user_id, {
+    const userData = await User.findByPk(req.user.id, {
       attributes: { exclude: ['password'] }
     });
-
+    
     const user = userData.get({ plain: true });
 
     user.profile_picture = await cloudinary.url(user.profile_picture, { transformation: [
@@ -24,7 +25,7 @@ router.get('/', withAuth, async (req, res) => {
     // Find the logged in user based on the session ID
     const userPostData = await Post.findAll({
       where: {
-        user_id: req.session.user_id,
+        user_id: req.user.id,
       },
       attributes: ['id', 'post_title', 'post_content', 'media', 'date_created'],
       include: [{
@@ -60,7 +61,8 @@ router.get('/', withAuth, async (req, res) => {
       posts, //posts.media is array
       user,
       // logged_in: true  
-      logged_in: req.session.logged_in
+      // logged_in: req.session.logged_in  (note: replaced this line with the below after Passport implementation)
+      logged_in: req.user ? true : false
     });
   } catch (err) {
     console.error(err);
@@ -72,7 +74,7 @@ router.get('/', withAuth, async (req, res) => {
 router.get('/new-post', withAuth, (req, res) => {
   res.render('new-post', {
     // logged_in: true
-    logged_in: req.session.logged_in
+    logged_in: req.user ? true : false
   })
 })
 
