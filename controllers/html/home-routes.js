@@ -1,4 +1,4 @@
-const mediaControl = require('./imageModal');
+const mediaControl = require('../imageModal');
 
 const router = require('express').Router();
 const { Post, User, Comment } = require('../../models');
@@ -85,7 +85,7 @@ router.get('/profile', logRouteInfo, withAuth, (req, res) => {
 // profile edit
 router.get('/profile/edit/',withAuth, async (req, res) => {
   try {
-    const userData = await User.findByPk(req.session.user_id, {
+    const userData = await User.findByPk(req.user.id, {
       attributes: ['first_name', 'last_name', 'date_of_birth', 'profile_picture'],
     });
 
@@ -97,7 +97,7 @@ router.get('/profile/edit/',withAuth, async (req, res) => {
     res.render('profile-edit', {
       ...user,      
       url,
-      logged_in: req.session.logged_in
+      logged_in: req.user
     });
   } catch (err) {
     console.error(err);
@@ -108,7 +108,7 @@ router.get('/profile/edit/',withAuth, async (req, res) => {
 
 // directs user to login page when they choose to log in
 router.get('/login', (req, res) => {
-  if (req.session.logged_in) {
+  if (req.user) {
     res.redirect('/dashboard');
     return;
   }
@@ -117,7 +117,7 @@ router.get('/login', (req, res) => {
 
 // directs user to register page if user is not logged in, otherwise user will be brought to dashboard
 router.get('/register', (req, res) => {
-  if (req.session.logged_in) {
+  if (req.user) {
     res.redirect('/dashboard');
     return;
   }

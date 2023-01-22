@@ -141,7 +141,7 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
         },
         {
           where: {
-            id: req.session.user_id  //do we need to update to id: req.user.id ?
+            id: req.user.id  //do we need to update to id: req.user.id ?
           }
         }
       )
