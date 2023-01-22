@@ -28,13 +28,7 @@ const sess = {
 // express-session
 app.use(session(sess));
 
-// middleware to log the incoming routing request from browser
-app.use((req, res, next)=>{
-  console.log(`${req.method} Request Received on endpoint ${req.url}`);
-  next();
-})
-
-// middleware to parse incoming data in different formats
+// middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -55,6 +49,11 @@ app.use(passport.session());
 const hbs = exphbs.create({ helpers });
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+
+
+hbs.handlebars.registerHelper('json', function(context) {
+  return JSON.stringify(context);
+});
 
 // turn on routes
 app.use(routes);

@@ -94,3 +94,4 @@ const mediaHandler = async (event) => {
 document
   .querySelector('.media-list')
   .addEventListener('click', mediaHandler);
+

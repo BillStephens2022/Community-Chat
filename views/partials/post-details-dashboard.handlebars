@@ -1,25 +1,29 @@
 
+
     {{!-- format for cards rendered for each post on the dashboard page. User will also see edit and delete buttons for each post --}}
     <div class="col-lg-12"> 
         
             <section class="card mb-3">
                 <a href="/post/{{id}}" class="post-links"><h2 class="card-title">{{post_title}}</h2>
                 <h5 class="card-content">{{post_content}}</h5></a>
+                
                 {{#if media.length}}
-                <div class="container text-center image-container">
-                {{#each media}} 
-                    
+                <input value="{{json media}}" type="hidden" id="{{id}}"/>
+                <div class="container text-center image-container"></div>
+                {{#each media}}     
+                {{!-- {{public_id}}                          --}}
+                {{!-- {{../id}} --}}
                     {{#if image}}
                     
-                        <img src="{{url}}" alt="image" class="card-image">
-                    
+                        <img src="{{url}}" alt="image" class="card-image" data-bs-toggle="modal" data-bs-target="#exampleModal" data-post="{{../id}}" data-public-id="{{public_id}}">
+                    </div> 
                     {{/if}}
                   
                     {{#if video}}
                         {{{url}}}                 
                     {{/if}}
                     {{#if raw}}                   
-                    <a href="{{url}}" download> 📂file Download📂 </a>
+                    <a href="{{url}}" download> 📂{{file_name}} </a>
                     {{/if}}
                     
                 {{/each}}
@@ -40,5 +44,5 @@
             
             </section>
     </div>
-    {{!-- <script src="/js/deletePost.js"></script> --}}
+    
     

@@ -1,0 +1,52 @@
+<input value="{{profile_picture}}" type="hidden" id="public_id"/>
+<section class="post">
+  <form class="submit-profile-form">
+    <!-- First Name -->
+    <div class="form-outline mb-4">
+      <label class="form-label" for="first-name">First Name</label>
+      <input
+        type="text"
+        id="first-name"
+        class="form-control"
+        placeholder="First Name" value="{{first_name}}"
+      />
+    </div>
+    <!-- Last Name -->
+    <div class="form-outline mb-4">
+      <label class="form-label" for="last-name">Last Name</label>
+      <input
+        type="text"
+        id="last-name"
+        class="form-control"
+        placeholder="Last Name" value="{{last_name}}"
+      />
+    </div>
+
+    <!-- Post content text area -->
+    <div class="form-outline mb-4">
+      <input type="date" id="date-of-birth" value="{{date_of_birth}}"/>
+      <label for="date-of-birth">Date of Birth </label>
+    </div>
+
+    <!-- Post file area -->
+    <div class="form-outline mb-4">
+      <label class="form-label" for="proflie-picture">Profile Picture</label>
+      <input
+        type="file"
+        id="proflie-picture"
+        class="form-control"
+        placeholder="file"
+      />
+      <img src="{{url}}" alt="proflie picture" id="picture"> 
+    </div>
+    <!-- Comment Submit button -->
+    <button
+      type="submit"
+      class="btn btn-success btn-block mb-4 comment-submit-button"
+      id="profile-submit-button" 
+    >Edit Profile</button>
+
+  </form>
+
+</section>
+<script src="/js/editProfile.js"></script>
