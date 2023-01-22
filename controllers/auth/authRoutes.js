@@ -22,4 +22,15 @@ router.post(
     })
   );
 
+router.get('/facebook', logRouteInfo,
+  passport.authenticate('facebook'));
+
+router.get('/facebook/callback', logRouteInfo,
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    console.log('login successful')
+    res.redirect('/dashboard');
+  });
+
 module.exports = router;
