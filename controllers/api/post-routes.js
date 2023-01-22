@@ -3,7 +3,7 @@ const mediaControl = require('../imageModal');
 const router = require('express').Router();
 const { Post, User } = require('../../models');
 const { withAuth, logRouteInfo } = require('../../utils/auth');
-const { format_date } = require('../../utils/helpers');
+const { format_date, format_birthday } = require('../../utils/helpers');
 const fs = require('fs');
 // for cloudinary use
 require('dotenv').config();
