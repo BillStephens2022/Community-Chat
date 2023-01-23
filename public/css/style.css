@@ -583,6 +583,8 @@ h6 {
 .image-container {
     display: flex;
     flex-wrap: wrap;
+    /* row-gap: 5px;
+    column-gap: 10px; */
     justify-content: space-around;
 }
 
