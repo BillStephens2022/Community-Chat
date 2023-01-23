@@ -1,12 +1,14 @@
-# Tech-Blog<br>![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+# Community-Chat 
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
   ## Description
 
-  Tech Blog is blog app where a user can view blog posts posted by others, create their own posts, and comment on others' posts.  The homepage shows posts by all users and when logged, in, users can click on a post and comment on it.  From the dashboard page, the user will see their own individual posts and is able to edit or delete their posts.  Technologies used include Node.js, Express, MYSQL, Sequelize, bcrypt.
+Community Chat is a social media app where users can post text, images, and videos as well as live chat with other users online.  You are able to comment on others' posts and when you click on the photos a modal pops up which features the photos in a larger format on a carousel where you can scroll through.   Community Chat is a team collaboration among 4 Rutgers Coding Bootcamp Students.  Several technologies were used to build this project - Node.js, Express, MySQL, Sequelize, Cloudinary, Socket.io, Passport.js, and Handlebars.  
 
-  Screenshot of deployed app (https://tech-blog-billstephens.herokuapp.com) :
-  
-  ![Screen Shot 2023-01-15 at 6 04 45 AM](https://user-images.githubusercontent.com/113722447/212537119-01993c72-8ab9-4fe0-95a3-c76c7433d415.png)
+Screenshot:
+
+![Community-Chat](/public/images/chat1.png)
 
   
   ## Table of Contents
@@ -20,11 +22,11 @@
   
   ## Installation
   
-  URL to deployed website:  https://tech-blog-billstephens.herokuapp.com
+  URL to deployed app:  https://community-chat.herokuapp.com/
   
   ## Usage
   
-  after going to the deployed app (URL is above), it will bring you to the home page.  Click the green button for "Log In/Register in the top right corner to register with username, email, and password.  Then Log In.  Home Page will show all user posts.  Click on a post if you want to view the comments or add a comment of your own.  Your dashboard will show any posts made by you where you will be able to either edit or delete.
+  Go to the deployed app in Heroku (https://community-chat.herokuapp.com/).  The app features a landing page where you can read about us and decide to sign up or sign in.  Once signed in you will update your profile with some basic information including uploading a profile picture.  Once your profile is updated, you will arrive on your dashboard where you can create new posts. Any new posts created by you will be rendered onto your dashboard.  The home menu item will bring you to the home page where you can view the entire community's posts.  When you click on a post, you will be brought to a page where you can see other's comments and post your own comments.  Click on the pictures of others' posts, and a modal will pop up where you can view the photos in a larger format and scroll through.  If you would like to live chat with other users that are online, click on the Chatroom item in the nav bar.  Enjoy!
 
   ## License
 This application is covered under the MIT License.
@@ -37,8 +39,10 @@ This application is covered under the MIT License.
   N/A
 
   ## Questions
-  Contact Info<br>
-  GitHub user name: BillStephens2022<br>
-  Link to GitHub profile: https://github.com/BillStephens2022<br>
-  Email: two4onebill@yahoo.com
+  Contact Info: <br>
+  The 4 team members that built this app:
+  Peter Lim (github: peterlim995)
+  Jake Nguyen (github: JakeTNguyen)
+  Andre Silva (github: americanoame)
+  Bill Stephens (github: BillStephens2022)<br>
 
