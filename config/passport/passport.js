@@ -95,7 +95,7 @@ passport.use('local-signin', new LocalStrategy(
         }).catch(function (err) {
             console.log("passport local-signin Error:", err);
             return done(null, false, {
-                message: 'Something went wrong with your Signin'
+                message: 'Something went wrong with your sign in'
             });
         });
     }
