@@ -47,10 +47,10 @@
         </a>
     </div>
 
-  <div class="row d-flex justify-content-center" id="post-list"> 
+
     {{#if posts.length}}
    
-    <div class="col-12  col-lg-9" id="post-list-show">
+    <div class="col-12  col-lg-9" id="post-list">
       {{#each posts as |post|}}   
 
       {{!-- format for cards rendered for each post on the dashboard page. User will also see edit and delete buttons for each post --}}
@@ -61,7 +61,6 @@
               <h5 class="card-content">{{post_content}}</h5>
             </a>
             {{#if media.length}}
-
             <input value="{{json media}}" type="hidden" id="{{id}}"/>
             <div class="text-center image-container">
             {{#each media}}     
@@ -108,7 +107,6 @@
     
     {{!-- </section> --}}
     {{/if}}
-    </div> 
   </div>
 </section>
 <!-- Modal -->

@@ -1,23 +1,30 @@
 {{!-- format for cards rendered for the single post page --}}
-<div class="d-flex justify-content-around">
-<section class="card mb-3">
-    <h2 class="card-title">{{post_title}}</h2>
-    <h5 class="card-content">{{post_content}}</h5>
-    {{#if media.length}}
-    {{#each media}} 
-      <div class="container text-center">
-      {{#if image}}
-          <img src="{{url}}" alt="image"> 
-      {{/if}}
-      {{#if video}}
-          {{{url}}}                        
-      {{/if}}
-      {{#if raw}}                   
-      <a href="{{url}}" download> 📂{{file_name}} </a>
-      {{/if}}
+<div class="row justify-content-center" id="post-list">
+    <div class="col-12 col-sm-8 col-lg-6" id="post-list-show">
+        <section class="card mb-3">
+            <h2 class="card-title">{{post_title}}</h2>
+            <h5 class="card-content">{{post_content}}</h5>
+            {{#if media.length}}
+            <input value="{{json media}}" type="hidden" id="{{id}}"/>
+            <div class="container text-center">
+            {{#each media}}
+            {{#if image}}
+                <img src="{{url}}" alt="image" class="card-image img-fluid" data-bs-toggle="modal" data-bs-target="#exampleModal" data-post="{{../id}}" data-public-id="{{public_id}}">
+            {{/if}}
+            {{#if video}}
+                {{{url}}}                        
+            {{/if}}
+            {{/each}}
+            <p></p>
+            {{#each media}} 
+            {{#if raw}}                   
+            <a href="{{url}}" download> <h6 class="text-start"> 📂 {{file_name}} </h6></a>
+            {{/if}}
+            {{/each}}
+            </div>
+            
+            {{/if}}
+            <h4 class="card-author">Posted by: {{user.username}} on {{format_date date_created}}   
+        </section>
     </div>
-    {{/each}}
-    {{/if}}
-    <h4 class="card-author">Posted by: {{user.username}} on {{format_date date_created}}   
-</section>
 </div>

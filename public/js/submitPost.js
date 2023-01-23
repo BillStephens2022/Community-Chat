@@ -23,6 +23,7 @@ var cloudinaryWidget = cloudinary.createUploadWidget({
                 imgEl.setAttribute("src", src);
                 imageContainer.appendChild(imgEl);
             } else if(result.info.resource_type === 'video') {
+                public_id_list.push(result.info.public_id +'?'+result.info.resource_type);
                 const imgEl = document.createElement("img");
                 const src = `https://res.cloudinary.com/drmapjksn/video/upload/c_fill,h_100,w_100/${result.info.public_id}.jpg`;
                 imgEl.setAttribute("src",src);
