@@ -1,5 +1,10 @@
 console.log("homeImages.js");
 
+const videoList = document.querySelectorAll('video');
+videoList.forEach(video => {
+    video.classList.add("img-fluid");
+})
+
 
 function showImages(event) {
     console.log('event: ', event);
@@ -28,18 +33,19 @@ function showImages(event) {
                 const imgEl = document.createElement("img");
                 const src = `https://res.cloudinary.com/drmapjksn/image/upload/b_black,c_pad,w_1140,h_600/${media.public_id}`;
                 imgEl.setAttribute("src", src);
+                imgEl.classList.add("img-fluid");
                 divEl.appendChild(imgEl)
                 imageContainer.appendChild(divEl);
             } else if (media.video) {
-                console.log("public_id: ", media.public_id);
-                const videoEl = document.createElement("video");
-                const video = `https://res.cloudinary.com/drmapjksn/video/upload/b_black,c_pad,w_1140,h_600/${media.public_id}`;
-                videoEl.setAttribute('controls', true);
-                const source = document.createElement("source");
-                source.setAttribute('src', video);
-                videoEl.appendChild(source);
-                divEl.appendChild(videoEl);
-                imageContainer.appendChild(divEl);
+                // console.log("public_id: ", media.public_id);
+                // const videoEl = document.createElement("video");
+                // const video = `https://res.cloudinary.com/drmapjksn/video/upload/b_black,c_pad,w_1140,h_600/${media.public_id}`;
+                // videoEl.setAttribute('controls', true);                
+                // const source = document.createElement("source");
+                // source.setAttribute('src', video);
+                // videoEl.appendChild(source);
+                // divEl.appendChild(videoEl);
+                // imageContainer.appendChild(divEl);
             }
         });
     }

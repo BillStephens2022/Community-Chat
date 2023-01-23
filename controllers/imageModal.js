@@ -2,7 +2,7 @@ require('dotenv').config();
 const cloudinary = require("cloudinary");
 
 
-async function mediaParse(post, width = 300, height = 300, v_width = 300, v_height = 300, quality = 90, crop = 'fill') {
+async function mediaParse(post, width = 300, height = 300, v_width = 300, v_height = 300, quality = 90, crop = 'fill', v_crop = 'pad', background = 'black') {
     console.log('hi media');
     const public_id_list = post.media.split(',');
     const mediaUrl = [];
@@ -21,7 +21,7 @@ async function mediaParse(post, width = 300, height = 300, v_width = 300, v_heig
                 loop:true, 
                 controls:true,
                 transformation:
-                    { width: v_width, height: v_height, quality: quality, crop: crop },
+                    {background: background, width: v_width, height: v_height, quality: quality, crop: v_crop },
                 fallback_content: "Your browser does not support HTML5 video tags."
             });
 
@@ -47,7 +47,7 @@ async function mediaParse(post, width = 300, height = 300, v_width = 300, v_heig
             }
             mediaUrl.push(media);
         } else {
-            const image = await cloudinary.url(public_id, { transformation: { width: width, height: height, crop: crop } });
+            const image = await cloudinary.url(public_id, { transformation: {background: background, width: width, height: height, crop: crop } });
             const media = {
                 url: image,
                 image: true,
@@ -62,7 +62,6 @@ async function mediaParse(post, width = 300, height = 300, v_width = 300, v_heig
     post.media = mediaUrl;
     console.log('new link: ', post.media);
 
-    // return post;
 
 }
 
