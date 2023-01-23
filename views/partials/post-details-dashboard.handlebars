@@ -1,36 +1,48 @@
 
+
     {{!-- format for cards rendered for each post on the dashboard page. User will also see edit and delete buttons for each post --}}
     <div class="col-lg-12"> 
         
             <section class="card mb-3">
                 <a href="/post/{{id}}" class="post-links"><h2 class="card-title">{{post_title}}</h2>
                 <h5 class="card-content">{{post_content}}</h5></a>
+                
                 {{#if media.length}}
-                {{#each media}} 
-                    
+                <input value="{{json media}}" type="hidden" id="{{id}}"/>
+                <div class="container text-center image-container"></div>
+                {{#each media}}     
+                {{!-- {{public_id}}                          --}}
+                {{!-- {{../id}} --}}
                     {{#if image}}
-                    <div class="container text-center image-container">
-                        <img src="{{url}}" alt="image" class="card-image">
+                    
+                        <img src="{{url}}" alt="image" class="card-image" data-bs-toggle="modal" data-bs-target="#exampleModal" data-post="{{../id}}" data-public-id="{{public_id}}">
                     </div> 
                     {{/if}}
+                  
                     {{#if video}}
-                    <div class="container text-center image-container">
-                        {{{url}}}  
-                    </div>                      
+                        {{{url}}}                 
                     {{/if}}
                     {{#if raw}}                   
-                    <a href="{{url}}" download> 📂file Download📂 </a>
+                    <a href="{{url}}" download> 📂{{file_name}} </a>
                     {{/if}}
-                   
+                    
                 {{/each}}
+                </div>
             {{/if}}
-                
+            
                 <h4 class="card-author">Posted by: {{user.username}} on {{format_date date_created}}</h4>
-                <p class="container row justify-content-end"><span class="edit-delete-buttons"><a
-                            href="api/posts/edit-post/{{id}}" class="btn btn-warning edit-button"
-                            id="edit-{{id}}">Edit</a><button class="btn btn-danger delete-button"
-                            id="delete-{{id}}">Delete</i></button></span></p>
+                <p class="container row justify-content-end"><span class="edit-delete-buttons"> <button
+                  class='btn btn-sm btn-info m-0'
+                  data-id='{{id}}'
+                  data-function='edit'
+                >EDIT</button>
+                <button
+                  class='btn btn-sm btn-danger m-0'
+                  data-id='{{id}}'
+                  data-function='delete'                  
+                >DELETE</button></span></p>
+            
             </section>
     </div>
-    {{!-- <script src="/js/deletePost.js"></script> --}}
+    
     

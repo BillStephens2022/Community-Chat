@@ -1,7 +1,9 @@
+const mediaControl = require('../imageModal');
+
 const router = require('express').Router();
 const { Post, User } = require('../../models');
-const withAuth = require('../../utils/auth');
-const { format_date } = require('../../utils/helpers');
+const { withAuth, logRouteInfo } = require('../../utils/auth');
+const { format_date, format_birthday } = require('../../utils/helpers');
 const fs = require('fs');
 // for cloudinary use
 require('dotenv').config();
@@ -10,7 +12,7 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 // const upload = multer();
 
-router.get('/', (req, res) => {
+router.get('/', logRouteInfo, withAuth, (req, res) => {
   console.log('GET request received!');
 });
 
@@ -57,7 +59,7 @@ router.get('/', (req, res) => {
 //   }
 // });
 
-router.post('/', withAuth, async (req, res) => {
+router.post('/', logRouteInfo, withAuth, async (req, res) => {
   try {
     console.log('body: ', req.body);
 
@@ -72,7 +74,8 @@ router.post('/', withAuth, async (req, res) => {
       post_title: req.body.title,
       post_content: req.body.content,
       media: media,
-      user_id: req.session.user_id
+      // user_id: req.session.user_id
+      user_id: req.user.id   //note:  updated above line to this after adding Passport
     })
     res.status(200).json(newPostData);
 
@@ -86,17 +89,23 @@ router.post('/', withAuth, async (req, res) => {
 
 
 // Create profile
-router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
+router.put('/profile', logRouteInfo, withAuth, upload.single('file'), async (req, res) => {
   try {
     console.log('body: ', req.body);
     console.log('file: ', req.file);
 
     if (req.file) {
 
+      if(req.body.public_id){
+        console.log('req.body.public_id: ',req.body.public_id);
+        const delResult = await cloudinary.v2.uploader.destroy(req.body.public_id);
+        console.log('Delete result: ', delResult);
+      }
+
       const file = req.file.path;
       console.log('file path: ', file);
       const result = await cloudinary.uploader.upload(file, {
-        resource_type: 'auto',
+        resource_type: 'image',
         folder: 'community-chat/profile'
       });
 
@@ -116,7 +125,8 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
         },
         {
           where: {
-            id: req.session.user_id
+            // id: req.session.user_id   (note: changed to below line of code due to Passport integration)
+            id: req.user.id
           }
         }
       )
@@ -131,7 +141,7 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
         },
         {
           where: {
-            id: req.session.user_id
+            id: req.user.id  //do we need to update to id: req.user.id ?
           }
         }
       )
@@ -146,7 +156,7 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
 
 
 // Delete a single post by id
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', logRouteInfo, withAuth, async (req, res) => {
   try {
 
     const singlePostData = await Post.findOne({
@@ -205,31 +215,68 @@ router.delete('/:id', withAuth, async (req, res) => {
   }
 });
 
-router.delete('/media', withAuth, async (req, res) => {
+router.put('/media', logRouteInfo, withAuth, async (req, res) => {
   try {
-    
+
     const public_id = req.body.public_id;
     const resource_type = req.body.resource_type;
-    
-    if (resource_type === 'image') {        
-        const result = await cloudinary.v2.uploader.destroy(public_id);
-        console.log('Delete result: ', result)
-      } else if (resource_type === 'video') {        
-        const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'video' });
-        console.log('Delete result: ', result)
-      } else {        
-        const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'raw' });
-        console.log('Delete result: ', result);
-      }      
 
-    res.status(200).json(result);
+    if (resource_type === 'image') {
+      const result = await cloudinary.v2.uploader.destroy(public_id);
+      console.log('Delete result: ', result)
+    } else if (resource_type === 'video') {
+      const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'video' });
+      console.log('Delete result: ', result)
+    } else {
+      const result = await cloudinary.v2.uploader.destroy(public_id, { resource_type: 'raw' });
+      console.log('Delete result: ', result);
+    }
+
+    const singlePostData = await Post.findOne({
+      where: {
+        id: req.body.id
+      },
+      attributes: ['media']
+    });
+
+    const post = singlePostData.get({ plain: true });
+    console.log('post: ', post);
+
+    // Delete selected media from the original media
+    const public_id_list = post.media.split(',');
+
+    let delete_index = -1;
+    for (let i = 0; i < public_id_list.length; i++) {
+      if(public_id_list[i].includes(public_id)){
+        delete_index = i;
+        break;
+      }
+    }
+
+    public_id_list.splice(delete_index,1);
+
+    const newMedia = public_id_list.join();
+
+    const editedPost = await Post.update(
+      {
+        media: newMedia        
+      },
+      {
+        where: {
+          id: req.body.id
+        },
+      }
+    )
+ 
+    res.status(200).json(editedPost);
   } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 });
 
 // finds the post the user requested to edit and displays it in an editable format
-router.get('/edit-post/:id', withAuth, async (req, res) => {
+router.get('/edit-post/:id', logRouteInfo, withAuth, async (req, res) => {
   console.log("Post ID:" + req.params.id);
   post_id = req.params.id;
   try {
@@ -248,64 +295,8 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
     })
     const post = editPostData.get({ plain: true });
 
-
-
     if (post.media) {
-
-      // id1,id2,id2 => ['id1','id2','id3']
-      const public_id_list = post.media.split(',');
-      const mediaUrl = [];
-
-      for (let i = 0; i < public_id_list.length; i++) {
-        // const info = await cloudinary.v2.api.resource(public_id_list[i]);
-        // console.log("media info: ",info);
-        const mediaFile = public_id_list[i].split('?');
-        const public_id = mediaFile[0];
-        let resource_type;
-        if (mediaFile.length >= 2) {
-          resource_type = mediaFile[1];
-        }
-
-        if (resource_type === 'video') {
-          const video = await cloudinary.video(public_id, {
-            controls: false,
-            transformation:
-              { height: 100, quality: 50, crop: "scale" },
-            fallback_content: "Your browser does not support HTML5 video tags."
-          });
-
-          const media = {
-            url: video,
-            video: true,
-            id: public_id,
-            resource_type
-          };
-          mediaUrl.push(media);
-        } else if (resource_type === 'raw') {
-          const raw = public_id.split('!')[1];
-          const id = public_id.split('!')[0];
-          const media = {
-            url: raw,
-            raw: true,
-            id: id,
-            resource_type
-          }
-          mediaUrl.push(media);
-        } else {
-          const image = await cloudinary.url(public_id, { transformation: { width: 100, crop: "scale" } });
-          const media = {
-            url: image,
-            image: true,
-            id: public_id,
-            resource_type
-          }
-          mediaUrl.push(media);
-        }
-      }
-
-      post.media = mediaUrl;
-      console.log('new link: ', post.media);
-
+      mediaControl.mediaParse(post, 100, 100, 20);            
     }
 
     res.render('edit-post', { post });
@@ -317,9 +308,9 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
 })
 
 // executed after a user submits their edited post
-router.put('/:id', withAuth, async (req, res) => {
+router.put('/:id', logRouteInfo, withAuth, async (req, res) => {
   try {
-    await Post.update(
+    const editedPost = await Post.update(
       {
         post_title: req.body.post_title,
         post_content: req.body.post_content,
