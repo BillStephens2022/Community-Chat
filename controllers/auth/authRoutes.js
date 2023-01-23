@@ -19,10 +19,8 @@ router.post(
       failureMessage: true
     }, (err, user, options) => {
       let failureMsg = options.message;
-      console.log(failureMsg);
+      console.log("*****failure message: ", failureMsg);
     })
   );
-
-  
 
 module.exports = router;
