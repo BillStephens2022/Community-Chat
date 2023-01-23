@@ -1,25 +1,80 @@
 {{!-- single post page displaying an area to leave a comment and save --}}
-<section class="post">
+<section class="container">
   
   <h3 class="h3-single-post">Original Post</h3>
   {{> single-post-details post}}
   
-  <h3 class="h3-comments">Comments</h3>
-  <form class="submit-comment-form">
-    <!-- Comment Text Area -->
-    <div class="form-outline mb-3">
-      <label class="form-label" for="new-comment-content">Post a comment here!</label>
-      <textarea id="new-comment-content" class="form-control" placeholder="Enter comment here"></textarea>
-    </div>
+  <div class="row justify-content-center" id="post-list">
+    <div class="col-12 col-sm-8 col-lg-6" id="post-list-show">
+       <h3 class="h3-comments">Comments</h3>
+      <form class="submit-comment-form">
+        <!-- Comment Text Area -->
+        <div class="form-outline mb-3">
+          <label class="form-label" for="new-comment-content">Post a comment here!</label>
+          <textarea id="new-comment-content" class="form-control" placeholder="Enter comment here"></textarea>
+        </div>
 
-    <!-- Comment Submit button -->
-    <button type="submit" class="btn btn-success btn-block mb-4 comment-submit-button" id="comment-submit-button">Post
-      Comment</button>
+        <!-- Comment Submit button -->
+        <button type="submit" class="btn btn-success btn-block mb-4 comment-submit-button" id="comment-submit-button">Post
+          Comment</button>
 
-  </form>
+      </form>
+    
   <section class="comments-section">
     {{> comment-details post.comments}}
   </section>
-
+  </div>
+  </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        {{!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> --}}
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+      </div>
+      <div class="modal-body">
+
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner" id="image-show">
+            {{!-- image show --}}
+            {{!-- <div class="carousel-item active">
+              <img src="..." class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+              <img src="..." class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+              <img src="..." class="d-block w-100" alt="...">
+            </div> --}}
+            {{!--  --}}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+        {{!-- <div class="container text-center" id="image-show"> --}}
+            {{!-- <img src='https://res.cloudinary.com/drmapjksn/image/upload/c_fill,w_600,h_400/unsigned/pig_jseqbr' alt="image" > --}}
+        {{!-- </div>  --}}
+        
+      </div>
+      {{!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> --}}
+    </div>
+  </div>
+</div>
+{{!-- Modal End --}}
+
+
+
 <script src="/js/createComment.js"></script>
+<script src="/js/homeImages.js"></script>
