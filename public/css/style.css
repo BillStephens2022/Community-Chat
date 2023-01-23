@@ -17,6 +17,7 @@
     --rgb-light-green: rgb(182, 214, 172);
     --rgb-green: rgb(225, 225, 105);
 }
+
 * {
     box-sizing: boder-box;
     margin: 0;
@@ -44,7 +45,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Noto Sans JP', sans-serif;
-    
+
 }
 
 .nav-container {
@@ -171,16 +172,18 @@ menu-toggle .bar {
 }
 
 .messages {
-    list-style-type: none; margin: 0; padding: 0; 
-    background:gray;
-} 
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background: gray;
+}
 
-.messages li{
+.messages li {
     padding: 0.5rem 1rem;
 }
 
-.messages li:nth-child(odd) { 
-    background: var(--main-blue); 
+.messages li:nth-child(odd) {
+    background: var(--main-blue);
 }
 
 
@@ -208,7 +211,7 @@ menu-toggle .bar {
     }
 
     .nav-menu.active {
-        background: transparent;
+        background: green;
         left: 0;
         opacity: 1;
         transition: all 0.5s ease;
@@ -221,6 +224,13 @@ menu-toggle .bar {
         display: table;
     }
 
+
+    .nav-links:hover  {
+        background-color:  green;
+        color: #fff;
+        transition: all 0.4s ease-out;
+    }
+        
 
     .navbar {
         width: 100%;
@@ -522,12 +532,13 @@ menu-toggle .bar {
         display: block;
     }
 }
+
 /******************************************************************/
 /* Home - shows all posts */
 /******************************************************************/
 
 .hero {
-    max-height: 300px;   
+    max-height: 300px;
     text-align: center;
     background: radial-gradient(black, var(--main-blue));
     align-items: center;
@@ -570,6 +581,8 @@ menu-toggle .bar {
         width: 100%;
         display: table;
     }
+
+
 
 
     .navbar {
@@ -793,6 +806,7 @@ menu-toggle .bar {
     }
 
 }
+
 h6 {
     text-align: center;
     color: white;
@@ -842,7 +856,7 @@ h6 {
 }
 
 .card {
-    color:white;
+    color: white;
     background-color: lightskyblue;
     box-shadow: 2px 2px 2px white;
 }
@@ -885,7 +899,8 @@ h6 {
     text-align: center;
 }
 
-.login-form, .register-form {
+.login-form,
+.register-form {
     display: block;
     margin: auto;
     max-width: 275px;
@@ -934,11 +949,13 @@ h6 {
     text-align: center;
 }
 
-#new-post-title, #new-post-content {
+#new-post-title,
+#new-post-content {
     width: 500px;
 }
 
-#new-post-content, #edit-post-content {
+#new-post-content,
+#edit-post-content {
     height: 300px;
 }
 
@@ -965,7 +982,8 @@ h6 {
     color: black;
 }
 
-.h3-comments, .h3-single-post {
+.h3-comments,
+.h3-single-post {
     text-align: center;
 }
 
@@ -989,19 +1007,25 @@ h6 {
 }
 
 @media screen and (max-width: 510px) {
-  
-    #new-post-title, #new-post-content, #edit-post-content, #new-comment-content {
-      width: 300px;
-      
+
+    #new-post-title,
+    #new-post-content,
+    #edit-post-content,
+    #new-comment-content {
+        width: 300px;
+
     }
 
-}   
+}
 
 @media screen and (max-width: 310px) {
-  
-    #new-post-title, #new-post-content, #edit-post-content, #new-comment-content {
-      width: 300px;
-      text-align: center;
+
+    #new-post-title,
+    #new-post-content,
+    #edit-post-content,
+    #new-comment-content {
+        width: 300px;
+        text-align: center;
     }
 
-}   
+}

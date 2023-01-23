@@ -90,7 +90,7 @@ body {
     border-radius: 4px;
     color: #fff;
 
-    /* background-color: var(--dark-green); */
+    /* background-color: green; */
 }
 
 .menu-toggle .bar {
@@ -126,7 +126,7 @@ body {
     }
 
     .nav-menu.active {
-        background: transparent;
+        background:  blue;
         left: 0;
         opacity: 1;
         transition: all 0.5s ease;
@@ -138,6 +138,8 @@ body {
         width: 100%;
         display: table;
     }
+
+    
 
 
     .navbar {
