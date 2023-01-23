@@ -19,7 +19,7 @@ form.addEventListener('submit', function(e) {
 socket.on('chat', function(msg) {
   console.log('recieved chat message from server:', msg);
   var item = document.createElement('li');
-  item.textContent = msg;
+  item.textContent = `${user.username}: ${msg}`;
   console.log('appied text content to list item');
   messages.appendChild(item);
   console.log('append list item to messages list');

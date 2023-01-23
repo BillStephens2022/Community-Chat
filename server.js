@@ -10,6 +10,7 @@ const routes = require('./controllers');
 //socket.io dependencies
 const http = require('http');
 const { Server } = require("socket.io");
+const { User } = require('./models');
 // set up express server and socket.io
 const app = express();
 const server = http.createServer(app);
@@ -67,20 +68,22 @@ app.use(routes);
 io.on('connection', (socket) => {
   
   console.log(`user connected ${socket.id}`);
+  
   io.emit(`chat`,`user " ${socket.id} "connected`);
   
-  socket.on('chat', msg => {    
+  // socket.on('chat', msg => {    
    
-    console.log(msg);
+  //   console.log(msg);
 
-    io.emit('chat', msg);
-  });
+  //   io.emit('chat', msg);
+  // });
 });
 
 
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
-  console.log('message: ' + msg);
+  console.log('message: ' + msg)
+  io.emit('chat', msg);
   });
 });
 
