@@ -11,7 +11,7 @@ router.get('/', logRouteInfo, (req, res) => {
   res.render('welcome', { logged_in: req.user ? true : false });
 })
 
-router.get('/home', logRouteInfo, async (req, res) => {
+router.get('/home', logRouteInfo, withAuth, async (req, res) => {
   try {
     const blogPostData = await Post.findAll({
       attributes: ['id', 'post_title', 'post_content', 'user_id', 'media', 'date_created'],
@@ -42,7 +42,7 @@ router.get('/home', logRouteInfo, async (req, res) => {
       console.log('public_id: ', posts[i].media);
 
       if (posts[i].media) {
-        mediaControl.mediaParse(posts[i]);        
+        mediaControl.mediaParse(posts[i],300,300,800,600);        
       }
     }
 
@@ -83,7 +83,7 @@ router.get('/profile', logRouteInfo, withAuth, (req, res) => {
 
 
 // profile edit
-router.get('/profile/edit/',withAuth, async (req, res) => {
+router.get('/profile/edit/',logRouteInfo, withAuth, async (req, res) => {
   try {
     const userData = await User.findByPk(req.user.id, {
       attributes: ['first_name', 'last_name', 'date_of_birth', 'profile_picture'],
@@ -92,7 +92,7 @@ router.get('/profile/edit/',withAuth, async (req, res) => {
     const user = userData.get({ plain: true });
     console.log("user", user);
 
-    const url = await cloudinary.url(user.profile_picture, { transformation: { width: 200, crop: "scale" } });
+    const url = await cloudinary.url(user.profile_picture, { transformation: { width: 576, crop: "scale" } });
     
     res.render('profile-edit', {
       ...user,      
@@ -105,7 +105,7 @@ router.get('/profile/edit/',withAuth, async (req, res) => {
   }
 });
 
-router.get('/chatroom', (req, res) => {
+router.get('/chatroom',logRouteInfo, withAuth, (req, res) => {
   res.render('chatroom', {
     // logged_in: req.session.logged_in  (note: replaced this line of code with line below after Passport integration)
     logged_in: req.user ? true : false
@@ -163,7 +163,7 @@ router.get('/post/:id', logRouteInfo, withAuth, async (req, res) => {
     console.log('public_id: ', post.media);
 
     if (post.media) {
-      mediaControl.mediaParse(post);
+      mediaControl.mediaParse(post,575,null,575,null,100,'scale');
     }
 
     res.render('singlePost', { post, logged_in: req.user ? true : false });

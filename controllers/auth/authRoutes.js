@@ -8,9 +8,8 @@ console.log(logRouteInfo);
 router.post('/register',
     logRouteInfo,
     passport.authenticate("local-signup", {
-        successRedirect: "/profile",
-        failureRedirect: "/login",
-    }),  
+        successRedirect: "/profile",        
+    })
 );
 
 router.post(
@@ -18,13 +17,10 @@ router.post(
     logRouteInfo,
     passport.authenticate("local-signin", {
       successRedirect: "/dashboard",
-      failureRedirect: "/login",
-      failureFlash: true,
-      failureMessage:true,
-      failureMessage: 'Invalid username or password.1',
-      failureFlash: 'Invalid username or password.2',
+      failureRedirect: "/login",      
+      failureMessage: true
     }),
-    passport.authenticate('local', { failureFlash: 'Invalid username or  password.3' })
+    passport.authenticate('local', { failureFlash: 'Invalid username or password.' })
   );
 
 module.exports = router;
