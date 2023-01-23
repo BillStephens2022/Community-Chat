@@ -160,6 +160,19 @@ a {
     background: var(--white);
 }
 
+.messages {
+    list-style-type: none; margin: 0; padding: 0; 
+    background:gray;
+} 
+
+.messages li{
+    padding: 0.5rem 1rem;
+}
+
+.messages li:nth-child(odd) { 
+    background: var(--main-blue); 
+}
+
 
 @media screen and (max-width: 768px) {
     .nav-container {
