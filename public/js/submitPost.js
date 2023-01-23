@@ -15,7 +15,7 @@ var cloudinaryWidget = cloudinary.createUploadWidget({
                 if(result.info.format === 'pdf'){
                     console.log('pdf!!!');
                     src = `https://res.cloudinary.com/drmapjksn/image/upload/c_fill,h_100,w_100,pg_1/${result.info.public_id}.jpg`;
-                    public_id_list.push(result.info.public_id +'!'+result.info.secure_url + '!'+ result.info.original_filename +'?'+'raw');
+                    public_id_list.push(result.info.public_id +'!'+result.info.secure_url + '!'+ result.info.original_filename+'.'+result.info.format +'?'+'raw');
                 }else {
                     src = `https://res.cloudinary.com/drmapjksn/image/upload/c_fill,h_100,w_100/${result.info.public_id}`;
                     public_id_list.push(result.info.public_id +'?'+result.info.resource_type);
@@ -29,9 +29,11 @@ var cloudinaryWidget = cloudinary.createUploadWidget({
                 imageContainer.appendChild(imgEl);
             }
         }else {
-            public_id_list.push(result.info.public_id +'!'+result.info.secure_url + '!'+ result.info.original_filename +'?'+result.info.resource_type);
+            const fileFormat = result.info.path.split('.').reverse()[0];
+
+            public_id_list.push(result.info.public_id +'!'+result.info.secure_url + '!'+ result.info.original_filename + '.'+fileFormat+'?'+result.info.resource_type);
             const fileName = document.createElement("p");
-            fileName.textContent = '📂'+ result.info.original_filename;
+            fileName.textContent = '📂'+ result.info.original_filename+'.'+fileFormat;
             const url = document.createElement("a");
             url.setAttribute('href',result.info.secure_url);
             url.appendChild(fileName)

@@ -2,27 +2,26 @@ require('dotenv').config();
 const cloudinary = require("cloudinary");
 
 
-async function mediaParse(post, width = 300, height = 300, quality = 90) {
+async function mediaParse(post, width = 300, height = 300, v_width = 300, v_height = 300, quality = 90, crop = 'fill') {
     console.log('hi media');
     const public_id_list = post.media.split(',');
     const mediaUrl = [];
 
     for (let i = 0; i < public_id_list.length; i++) {
-        // const info = await cloudinary.v2.api.resource(public_id_list[i]);
-        // console.log("media info: ",info);
+        
         const mediaFile = public_id_list[i].split('?');
         const public_id = mediaFile[0];
         let resource_type;
         if (mediaFile.length >= 2) {
             resource_type = mediaFile[1];
-        }
+        }       
 
         if (resource_type === 'video') {
             const video = await cloudinary.video(public_id, {
                 loop:true, 
                 controls:true,
                 transformation:
-                    { width: width, quality: quality, crop: "scale" },
+                    { width: v_width, height: v_height, quality: quality, crop: crop },
                 fallback_content: "Your browser does not support HTML5 video tags."
             });
 
@@ -48,7 +47,7 @@ async function mediaParse(post, width = 300, height = 300, quality = 90) {
             }
             mediaUrl.push(media);
         } else {
-            const image = await cloudinary.url(public_id, { transformation: { width: width, crop: "scale" } });
+            const image = await cloudinary.url(public_id, { transformation: { width: width, height: height, crop: crop } });
             const media = {
                 url: image,
                 image: true,

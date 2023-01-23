@@ -52,7 +52,7 @@ router.get('/', logRouteInfo, withAuth, async (req, res) => {
 
       if (posts[i].media) {
 
-        mediaControl.mediaParse(posts[i]);       
+        mediaControl.mediaParse(posts[i],300,300,800,600);       
       
       }
     }

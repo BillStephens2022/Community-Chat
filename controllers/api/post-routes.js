@@ -12,7 +12,7 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 // const upload = multer();
 
-router.get('/', logRouteInfo, (req, res) => {
+router.get('/', logRouteInfo, withAuth, (req, res) => {
   console.log('GET request received!');
 });
 
@@ -89,7 +89,7 @@ router.post('/', logRouteInfo, withAuth, async (req, res) => {
 
 
 // Create profile
-router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
+router.put('/profile', logRouteInfo, withAuth, upload.single('file'), async (req, res) => {
   try {
     console.log('body: ', req.body);
     console.log('file: ', req.file);
@@ -156,7 +156,7 @@ router.put('/profile', withAuth, upload.single('file'), async (req, res) => {
 
 
 // Delete a single post by id
-router.delete('/:id', withAuth, async (req, res) => {
+router.delete('/:id', logRouteInfo, withAuth, async (req, res) => {
   try {
 
     const singlePostData = await Post.findOne({
@@ -215,7 +215,7 @@ router.delete('/:id', withAuth, async (req, res) => {
   }
 });
 
-router.put('/media', withAuth, async (req, res) => {
+router.put('/media', logRouteInfo, withAuth, async (req, res) => {
   try {
 
     const public_id = req.body.public_id;
@@ -276,7 +276,7 @@ router.put('/media', withAuth, async (req, res) => {
 });
 
 // finds the post the user requested to edit and displays it in an editable format
-router.get('/edit-post/:id', withAuth, async (req, res) => {
+router.get('/edit-post/:id', logRouteInfo, withAuth, async (req, res) => {
   console.log("Post ID:" + req.params.id);
   post_id = req.params.id;
   try {
@@ -308,7 +308,7 @@ router.get('/edit-post/:id', withAuth, async (req, res) => {
 })
 
 // executed after a user submits their edited post
-router.put('/:id', withAuth, async (req, res) => {
+router.put('/:id', logRouteInfo, withAuth, async (req, res) => {
   try {
     const editedPost = await Post.update(
       {
