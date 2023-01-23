@@ -65,10 +65,9 @@ app.use(routes);
 
 // socket.io connection to listen on server
 io.on('connection', (socket) => {
-  console.log(socket.id);
-  console.log('a user connected');
   
-  io.emit(`chat`, socket.id);
+  console.log(`user connected ${socket.id}`);
+  io.emit(`chat`,`user " ${socket.id} "connected`);
   
   socket.on('chat', msg => {    
    
@@ -81,14 +80,15 @@ io.on('connection', (socket) => {
 
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
-    console.log('message: ' + msg);
+  console.log('message: ' + msg);
   });
 });
 
  
 io.on('disconnect', () => { 
-    console.log('user disconnected');
-    });
+  console.log('user disconnected');
+  io.emit(`chat`,`user" ${socket.id} "disconnected`);
+});
 
 
 // turn on connection to db and server
