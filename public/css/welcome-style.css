@@ -206,7 +206,7 @@ body {
     color: transparent;
     -webkit-text-stroke: 3px #fff;
     background: url(/images/back.png);
-    -webkit-background-clip: text;
+    -webkit-background-clip: text; 
     animation: back 20s linear infinite;
 
 }
