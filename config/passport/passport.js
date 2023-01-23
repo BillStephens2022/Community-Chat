@@ -104,15 +104,78 @@ passport.use('local-signin', new LocalStrategy(
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3001/auth/facebook/callback"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    console.log("FACEBOOK LOGIN!")
-    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-      return cb(err, user);
+    callbackURL: '/oauth2/redirect/facebook',
+    state: true
+  }, function verify(accessToken, refreshToken, profile, done) {
+    console.log('access token: ', accessToken);
+    console.log('refresh token: ', refreshToken);
+    console.log('profile.displayName: ', profile.displayName);
+    User.findOne({ where: { id : profile.id } }).then(function(err, user) {
+
+        if (err)
+            return done(err);
+
+        if (user) {
+            return done(null, user); // user found, return that user
+        } else {
+            console.log('***************hello');
+            console.log('username: ', profile.displayName);
+            var userInfo = {
+              username  : profile.displayName,
+              email : "email@facebook.com", 
+              password : 'kj5k3k24i3ioIIOS*Y#YYIQ@UI!',  
+            };
+            User.create(userInfo).then(function (newUser, created) {
+                if (!newUser) {
+                    return done(null, false);
+                }
+                if (newUser) {
+                    console.log("The new user ID is: ", newUser.id);
+                    return done(null, newUser);
+                }
+            });
+       }
+
     });
-  }
-));
+ 
+
+}));
+
+
+    // db.get('SELECT * FROM federated_credentials WHERE provider = ? AND subject = ?', [
+    //   'https://www.facebook.com',
+    //   profile.id
+    // ], function(err, row) {
+    //   if (err) { return cb(err); }
+    //   if (!row) {
+    //     db.run('INSERT INTO users (name) VALUES (?)', [
+    //       profile.displayName
+    //     ], function(err) {
+    //       if (err) { return cb(err); }
+  
+    //       var id = this.lastID;
+    //       db.run('INSERT INTO federated_credentials (user_id, provider, subject) VALUES (?, ?, ?)', [
+    //         id,
+    //         'https://www.facebook.com',
+    //         profile.id
+    //       ], function(err) {
+    //         if (err) { return cb(err); }
+    //         var user = {
+    //           id: id,
+    //           name: profile.displayName
+    //         };
+    //         return cb(null, user);
+    //       });
+    //     });
+    //   } else {
+    //     db.get('SELECT * FROM users WHERE id = ?', [ row.user_id ], function(err, row) {
+    //       if (err) { return cb(err); }
+    //       if (!row) { return cb(null, false); }
+    //       return cb(null, row);
+    //     });
+    //   }
+    // });
+//   }));
 
 module.exports = passport;
 
