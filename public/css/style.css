@@ -198,10 +198,12 @@ a {
     }
 
     .nav-menu.active {
-        background: transparent;
+        /* background: transparent; */
+        background: white;
         left: 0;
         opacity: 1;
         transition: all 0.5s ease;
+        z-index: 1
     }
 
     .nav-links {
@@ -648,8 +650,8 @@ h6 {
 }
 
 #create-post-button {
-    width: 225px;
-    height: 55px;
+    /* width: 225px;
+    height: 55px; */
     border: solid white 2px;
     font-size: 0.8em;
     background-color: var(--royalblue);
@@ -663,12 +665,12 @@ h6 {
 #new-post-form {
     display: block;
     margin: auto;
-    width: 500px;
+    /* width: 500px; */
     text-align: center;
 }
 
 #new-post-title, #new-post-content {
-    width: 500px;
+    /* width: 500px; */
 }
 
 #new-post-content, #edit-post-content {
