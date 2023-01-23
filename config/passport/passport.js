@@ -85,6 +85,7 @@ passport.use('local-signin', new LocalStrategy(
                 });
             }
             if (!dbUser.checkPassword(password)) {
+                console.log("Incorrect password");
                 return done(null, false, {
                     message: 'Incorrect password'
                 });
@@ -100,46 +101,46 @@ passport.use('local-signin', new LocalStrategy(
     }
 ));
 
-//FACEBOOK LOGIN
-passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: '/oauth2/redirect/facebook',
-    state: true
-  }, function verify(accessToken, refreshToken, profile, done) {
-    console.log('access token: ', accessToken);
-    console.log('refresh token: ', refreshToken);
-    console.log('profile.displayName: ', profile.displayName);
-    User.findOne({ where: { id : profile.id } }).then(function(err, user) {
+// //FACEBOOK LOGIN
+// passport.use(new FacebookStrategy({
+//     clientID: process.env.FACEBOOK_APP_ID,
+//     clientSecret: process.env.FACEBOOK_APP_SECRET,
+//     callbackURL: '/oauth2/redirect/facebook',
+//     state: true
+//   }, function verify(accessToken, refreshToken, profile, done) {
+//     console.log('access token: ', accessToken);
+//     console.log('refresh token: ', refreshToken);
+//     console.log('profile.displayName: ', profile.displayName);
+//     User.findOne({ where: { id : profile.id } }).then(function(err, user) {
 
-        if (err)
-            return done(err);
+//         if (err)
+//             return done(err);
 
-        if (user) {
-            return done(null, user); // user found, return that user
-        } else {
-            console.log('***************hello');
-            console.log('username: ', profile.displayName);
-            var userInfo = {
-              username  : profile.displayName,
-              email : "email@facebook.com", 
-              password : 'kj5k3k24i3ioIIOS*Y#YYIQ@UI!',  
-            };
-            User.create(userInfo).then(function (newUser, created) {
-                if (!newUser) {
-                    return done(null, false);
-                }
-                if (newUser) {
-                    console.log("The new user ID is: ", newUser.id);
-                    return done(null, newUser);
-                }
-            });
-       }
+//         if (user) {
+//             return done(null, user); // user found, return that user
+//         } else {
+//             console.log('***************hello');
+//             console.log('username: ', profile.displayName);
+//             var userInfo = {
+//               username  : profile.displayName,
+//               email : "email@facebook.com", 
+//               password : 'kj5k3k24i3ioIIOS*Y#YYIQ@UI!',  
+//             };
+//             User.create(userInfo).then(function (newUser, created) {
+//                 if (!newUser) {
+//                     return done(null, false);
+//                 }
+//                 if (newUser) {
+//                     console.log("The new user ID is: ", newUser.id);
+//                     return done(null, newUser);
+//                 }
+//             });
+//        }
 
-    });
+//     });
  
 
-}));
+// }));
 
 
     // db.get('SELECT * FROM federated_credentials WHERE provider = ? AND subject = ?', [
