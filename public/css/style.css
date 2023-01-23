@@ -684,6 +684,10 @@ h6 {
     text-align: center;
 }
 
+.submit-post-form {
+    max-width: 500px;
+}
+
 .edit-post-form {
     max-width: 500px;
 }
