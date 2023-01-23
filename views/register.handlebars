@@ -1,26 +1,23 @@
 {{!-- registration form page --}}
 <div class="login m-4">
-    <h4 class="login-subtitle mb-4">Register Below:</h4>
+    <h4 class="text-center mb-4">Register Below:</h4>
     <form class="register-form" id"register-form">
-
-        
-       
 
         <!-- Username input -->
         <div class="form-outline mb-4">
-            <input type="text" id="register-username" class="form-control" placeholder="Create a username" />
+            <input type="text" id="register-username" class="form-control" placeholder="Create a username" required/>
             <label class="form-label" for="register-username">Username</label>
         </div>
         
         <!-- Email input -->
         <div class="form-outline mb-4">
-            <input type="email" id="register-email" class="form-control" placeholder="Your email" />
+            <input type="email" id="register-email" class="form-control" placeholder="Your email" required />
             <label class="form-label" for="register-email">Email address</label>
         </div>
        
         <!-- Password input -->
         <div class="form-outline mb-4">
-            <input type="password" id="register-password" class="form-control" placeholder="Create a password" />
+            <input type="password" id="register-password" class="form-control" placeholder="Create a password" required />
             <label class="form-label" for="register-password">Password</label>
             <div id="passRequirement" class="form-text">Password length must be at least 8 characters long.</div>
 

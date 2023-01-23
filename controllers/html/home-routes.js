@@ -42,7 +42,7 @@ router.get('/home', logRouteInfo, withAuth, async (req, res) => {
       console.log('public_id: ', posts[i].media);
 
       if (posts[i].media) {
-        mediaControl.mediaParse(posts[i]);        
+        mediaControl.mediaParse(posts[i],300,300,800,600);        
       }
     }
 
@@ -92,7 +92,7 @@ router.get('/profile/edit/',logRouteInfo, withAuth, async (req, res) => {
     const user = userData.get({ plain: true });
     console.log("user", user);
 
-    const url = await cloudinary.url(user.profile_picture, { transformation: { width: 200, crop: "scale" } });
+    const url = await cloudinary.url(user.profile_picture, { transformation: { width: 576, crop: "scale" } });
     
     res.render('profile-edit', {
       ...user,      
@@ -163,7 +163,7 @@ router.get('/post/:id', logRouteInfo, withAuth, async (req, res) => {
     console.log('public_id: ', post.media);
 
     if (post.media) {
-      mediaControl.mediaParse(post);
+      mediaControl.mediaParse(post,575,null,575,null,100,'scale');
     }
 
     res.render('singlePost', { post, logged_in: req.user ? true : false });

@@ -47,19 +47,59 @@
 
 
 <!--Homepage displays all posts from all users -->
-<h6>Number of times you've visited this homepage: {{countVisit}}</h6>
+{{!-- <h6>Number of times you've visited this homepage: {{countVisit}}</h6> --}}
+
+<section class="container my-3">
+  <div class="row d-flex justify-content-center" id="post-list">
 
 
-{{#if posts.length}}
-<div class="container">
-<section class="posts col" id="post-list-show">
-  {{#each posts as |post|}}
-  {{> post-details}}
-  {{/each}}
+    {{#if posts.length}}
+    <div class="col-12  col-lg-9" id="post-list-show">
+    
+      {{#each posts as |post|}}
+      {{!-- {{> post-details}} --}}
+      {{!-- format for cards rendered for each post on the home page --}}
+      <div  >
+        <section class="card mb-3">
+          <a href="/post/{{id}}" class="post-links">
+            <h2 class="card-title">{{post_title}}</h2>
+            <h5 class="card-content">{{post_content}}</h5>
+          </a>
+          {{#if media.length}}
+          <input value="{{json media}}" type="hidden" id="{{id}}"/>
+          <div class="text-center image-container">
+            {{#each media}}     
+              {{#if image}}
+                <img src="{{url}}" alt="image" class="card-image img-fluid" data-bs-toggle="modal" data-bs-target="#exampleModal" data-post="{{../id}}" data-public-id="{{public_id}}">
+              {{/if}}
+            {{/each}}
+          </div>
+          <div class="image-container">
+            {{#each media}}                  
+                {{#if video}}
+                    {{!-- <div data-bs-toggle="modal" data-bs-target="#exampleModal" data-post="{{../id}}" data-public-id="{{public_id}}"> --}}
+                    {{{url}}}  
+                    {{!-- </div>             --}}
+                {{/if}}
+                
+            {{/each}}
+          </div> 
+          <div class="p-3">
+          {{#each media}}                 
+              {{#if raw}}                                   
+              <a href="{{url}}" download> <h6 class="text-start"> 📂 {{file_name}} </h6></a>
+              {{/if}}                  
+          {{/each}}
+          </div>
+          {{/if}}
+          <h4 class="card-author">Posted by: {{user.username}} on {{format_date date_created}}</h4>
+        </section>      
+    </div>
+    {{/each}}
+    </div>
+  {{/if}}
+  </div>
 </section>
-{{/if}}
-</div>
-
 
 <script src="/js/homeImages.js"></script>
 {{!-- <script src="/js/showImages.js"></script> --}}

@@ -598,7 +598,7 @@ h6 {
     flex-wrap: wrap;
     /* row-gap: 5px;
     column-gap: 10px; */
-    justify-content: space-around;
+    justify-content: space-around;    
 }
 
 .card-image {
@@ -678,7 +678,7 @@ h6 {
 .submit-comment-form {
     display: block;
     margin: auto;
-    width: 500px;
+    /* width: 500px; */
     text-align: center;
 }
 
@@ -687,7 +687,7 @@ h6 {
 }
 
 .comment-card {
-    width: 500px;
+    /* width: 500px; */
     margin: auto;
     color: black;
     background-color: white;
@@ -724,7 +724,7 @@ h6 {
 @media screen and (max-width: 510px) {
   
     #new-post-title, #new-post-content, #edit-post-content, #new-comment-content {
-      width: 300px;
+      /* width: 300px; */
       
     }
 
@@ -733,7 +733,7 @@ h6 {
 @media screen and (max-width: 310px) {
   
     #new-post-title, #new-post-content, #edit-post-content, #new-comment-content {
-      width: 300px;
+      /* width: 300px; */
       text-align: center;
     }
 

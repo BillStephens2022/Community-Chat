@@ -1,3 +1,25 @@
+
+
+
+
+document.getElementById('proflie-picture').onchange = function() {
+    // fire the upload here
+    const file = document.querySelector('#proflie-picture');
+    var fileReader = new FileReader();    
+    fileReader.readAsDataURL(file.files[0]);
+    fileReader.addEventListener("load", function () {
+        const divEl = document.getElementById('show-picture');
+        divEl.innerHTML = "";
+        const imgEl = document.createElement("img");
+        imgEl.classList.add("img-fluid");
+        imgEl.setAttribute("src", this.result);          
+        divEl.appendChild(imgEl);
+    });    
+    
+};
+
+
+
 // function for creating and submitting a comment to a post
 const submitProfile = async (event) => {
     event.preventDefault();
