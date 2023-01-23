@@ -30,7 +30,7 @@ console.log("showImage.js");
   }
   
   
-  document.querySelector('.post-list').addEventListener('click', buttonHandler);
+  document.querySelector('#post-list').addEventListener('click', buttonHandler);
 
 
 
@@ -40,10 +40,18 @@ function showImages(event) {
     if (event.target.hasAttribute('data-post')) {
         // clean the modal
         document.getElementById('image-show').innerHTML = "";
-        const id = event.target.getAttribute('data-post');
-        const public_id = event.target.getAttribute('data-public-id');
+        let id = event.target.getAttribute('data-post');
+        let public_id = event.target.getAttribute('data-public-id');
         const media = document.getElementById(id).value;
         const imageContainer = document.getElementById('image-show');
+
+        console.log("id: ",id);
+        console.log("public_id: ",public_id);
+
+        // if(id || !public_id){
+        //     id = event.target.parentElement.getAttribute('data-post');
+        //     public_id = event.target.parentElement.getAttribute('data-public-id');
+        // }
 
         console.log(media);
         const mediaData = JSON.parse(media);
@@ -61,6 +69,7 @@ function showImages(event) {
                 const imgEl = document.createElement("img");
                 const src = `https://res.cloudinary.com/drmapjksn/image/upload/b_black,c_pad,w_1140,h_600/${media.public_id}`;
                 imgEl.setAttribute("src", src);
+                imgEl.classList.add("img-fluid");
                 divEl.appendChild(imgEl)
                 imageContainer.appendChild(divEl);
             } else if (media.video) {
@@ -68,6 +77,7 @@ function showImages(event) {
                 const videoEl = document.createElement("video");
                 const video = `https://res.cloudinary.com/drmapjksn/video/upload/b_black,c_pad,w_1140,h_600/${media.public_id}`;
                 videoEl.setAttribute('controls', true);
+                videoEl.classList.add("img-fluid");
                 const source = document.createElement("source");
                 source.setAttribute('src', video);
                 videoEl.appendChild(source);
