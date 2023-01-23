@@ -1,7 +1,7 @@
 {{!-- The dashboard is where user will see all of the posts they've made as well as a button to create a new post --}}
 <section class="mb-3 pb-3 pt-3 profile-card">
         <h2 class="card-title">{{user.first_name}}  {{user.last_name}}</h2>
-        <h2 class="card-title">{{user.date_of_birth}}</h2>
+        <h2 class="card-title">Birthday: {{format_birthday user.date_of_birth}}</h2>
         {{#if user.profile_picture}}
           <div class="container text-center profile-picture-container">
              <img class="col-lg-12 profile-picture" src="{{user.profile_picture}}" alt="{{user.profile_picture}}">
@@ -106,24 +106,26 @@
                 <h5 class="card-content">{{post_content}}</h5></a>
                 {{#if media.length}}
                 <input value="{{json media}}" type="hidden" id="{{id}}"/>
+                <div class="container text-center image-container">
                 {{#each media}}     
                 {{!-- {{public_id}}                          --}}
                 {{!-- {{../id}} --}}
                     {{#if image}}
-                    <div class="container text-center image-container">
+                    
                         <img src="{{url}}" alt="image" class="card-image" data-bs-toggle="modal" data-bs-target="#exampleModal" data-post="{{../id}}" data-public-id="{{public_id}}">
-                    </div> 
+                    
                     {{/if}}
                     {{#if video}}
-                    <div class="container text-center image-container">
+                   
                         {{{url}}}  
-                    </div>                      
+                                         
                     {{/if}}
                     {{#if raw}}                   
                     <a href="{{url}}" download> 📂{{file_name}} </a>
                     {{/if}}
                    
                 {{/each}}
+                </div> 
             {{/if}}
             
                 <h4 class="card-author">Posted by: {{user.username}} on {{format_date date_created}}</h4>
