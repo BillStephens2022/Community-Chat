@@ -11,15 +11,24 @@ var imgEl = document.getElementById('picture');
 //     });
 //   }
 
-document.getElementById('proflie-picture').onchange = function() {
+document.getElementById('proflie-picture').onchange = function () {
     // fire the upload here
     const file = document.querySelector('#proflie-picture');
-    var fileReader = new FileReader();    
+    var fileReader = new FileReader();
     fileReader.readAsDataURL(file.files[0]);
     fileReader.addEventListener("load", function () {
-        imgEl.setAttribute("src", this.result);          
-    });    
-    
+        if (imgEl) {
+            imgEl.setAttribute("src", this.result);
+        } else {
+            const divEl = document.getElementById('show-picture');
+            divEl.innerHTML = "";
+            const imgEl = document.createElement("img");
+            imgEl.classList.add("img-fluid");
+            imgEl.setAttribute("src", this.result);
+            divEl.appendChild(imgEl);
+        }
+    });
+
 };
 
 
@@ -41,9 +50,9 @@ const submitProfile = async (event) => {
         if (file) {
             formData.append('file', file.files[0]);
             const public_id = document.getElementById('public_id').value;
-            
-            console.log('public_id: ',public_id);
-            formData.append('public_id',public_id);
+
+            console.log('public_id: ', public_id);
+            formData.append('public_id', public_id);
         }
 
         const response = await fetch('/api/posts/profile', {

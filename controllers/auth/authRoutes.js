@@ -8,9 +8,8 @@ console.log(logRouteInfo);
 router.post('/register',
     logRouteInfo,
     passport.authenticate("local-signup", {
-        successRedirect: "/profile",
-        failureRedirect: "/login",
-    }),  
+        successRedirect: "/profile",        
+    })
 );
 
 router.post(
@@ -18,22 +17,10 @@ router.post(
     logRouteInfo,
     passport.authenticate("local-signin", {
       successRedirect: "/dashboard",
-      failureRedirect: "/login",
+      failureRedirect: "/login",      
       failureMessage: true
-    }, 
-)
-);
-
-
-
-
-
-
-// router.get('/login/federated/facebook', logRouteInfo, passport.authenticate('facebook'));
-
-// router.get('/oauth2/redirect/facebook', logRouteInfo, passport.authenticate('facebook', {
-//   successRedirect: '/dashboard',
-//   failureRedirect: '/login'
-// }));
+    }),
+    passport.authenticate('local', { failureFlash: 'Invalid username or password.' })
+  );
 
 module.exports = router;
