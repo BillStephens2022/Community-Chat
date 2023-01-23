@@ -117,7 +117,7 @@ body {
         position: absolute;
         top: 80px;
         left: -100%;
-        opacity: 0;
+        opacity: 1;
         transition: all 0.5s ease;
     }
 
@@ -130,6 +130,8 @@ body {
         left: 0;
         opacity: 1;
         transition: all 0.5s ease;
+
+        z-index: 1;
     }
 
     .nav-links {
